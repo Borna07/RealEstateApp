@@ -7,6 +7,7 @@ from RealEstateApp.settings import MEDIA_ROOT
 from os import listdir
 from os.path import isfile, join
 import os
+pd.options.mode.chained_assignment = None 
 
 
 class Command(BaseCommand):
