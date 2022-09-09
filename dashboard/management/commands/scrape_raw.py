@@ -16,25 +16,6 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
 
-        url = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojamZup=1166&tipoglasa=1&sortby=1&elementsNum=100&city=1638&naselje=0&cijenaod=0&cijenado=21000000&vezani_na=988-887_562-563_978-1334&num=1"
-        URL_rovinj = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojam=&sortby=1&elementsNum=100&cijenaod=0&cijenado=21000000&tipoglasa=1&pojamZup=1154&city=1294&naselje=3374&attr_Int_988=&attr_Int_887=&attr_bit_stan=&attr_bit_brojEtaza=&attr_gr_93_1=&attr_gr_93_2=&attr_Int_978=&attr_Int_1334=&attr_bit_eneregetskiCertifikat=&vezani_na=988-887_562-563_978-1334"
-        URL_zg = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojam=&sortby=1&elementsNum=100&cijenaod=0&cijenado=21000000&tipoglasa=1&pojamZup=1153&city=&naselje=&attr_Int_988=&attr_Int_887=&attr_bit_stan=&attr_bit_brojEtaza=&attr_gr_93_1=&attr_gr_93_2=&attr_Int_978=&attr_Int_1334=&attr_bit_eneregetskiCertifikat=&vezani_na=988-887_562-563_978-1334"
-
-        city_name = "Varazdin"
-        ime = "_varazdin"
-
-
-
-        #find all pages
-        pages = catch_links_all_pages(url)
-        
-        #scrape all pages
-        data_list = []
-        for page in pages:
-            try:
-                data_list.append(data_dict_index(page))
-            except:
-                pass
 
         #current directory
         cwd = os.getcwd()
@@ -53,7 +34,6 @@ class Command(BaseCommand):
             ime = "_" + name[2].split(".")[0]
             city_name = name[2].split(".")[0].capitalize()
             #create dataframe
-            df = pd.DataFrame(data_list)
             current_date = name[0]
             #check raw entries, save raw dataframe
             dj_raw_entries = len(df.index)
