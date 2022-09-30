@@ -78,8 +78,8 @@ def data_dict_index(url):
 def fig_year_build(df):
     
     data = df.groupby("Godina izgradnje").median()
-    fig_year_build = px.bar(data, x = data.index, y = data["€/m²"], color = data["€/m²"],
-    title = "Average price per sqrm of year build")
+    fig_year_build = px.bar(data, x = data.index, y = data["€/m²"], color = data["€/m²"],)
+    # title = "Average price per sqrm of year build")
     fig_year_build.update_layout(
     xaxis_title="Year build",)
 
