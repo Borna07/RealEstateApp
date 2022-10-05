@@ -324,6 +324,7 @@ body
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    padding-bottom: 10px;
 }
 .cardHeader h2
 {
@@ -400,6 +401,16 @@ body
     grid-template-columns: 1fr;
     grid-gap: 30px;
     margin-top: 10px;
+}
+
+.charts .chartStatDistribution{
+    position: relative;
+    display: grid;
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    box-shadow: 0 7px 25px rgba(0,0,0,0.08);
+    border-radius: 20px;    
 }
 
 .charts .chartAveragePerYear{

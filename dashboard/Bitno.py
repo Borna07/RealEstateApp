@@ -92,11 +92,24 @@ def fig_price_per_sqm(df1):
     data_price_per_sqm = df1["€/m²"].describe()
 
     fig_price_per_sqm = px.bar(data_price_per_sqm , color = data_price_per_sqm,
-    title="Statistical distribution of price per sqrm",
+    # title="Statistical distribution of price per sqrm",
     labels = {"value": "€/m²"})
     plot_div = plot(fig_price_per_sqm, output_type='div')
 
     return plot_div
+
+def city_plot(df, city_name):
+    fields = ["avg_price_sqrm", "avg_size", "avg_year","raw_entries", "clean_entries",]
+    output = []
+    
+    for field in fields:
+        fig = px.line(df, x="calendar_week", y=field, markers=True, )
+        plot_div = plot(fig, output_type='div')
+        title=city_name + " "  +field
+        output.append([plot_div, title])
+    
+    return output
+
 
 def all_data_table(df):
     bitno = ["Godina izgradnje","Cijena","Stambena površina u m2","€/m²", "Link"]

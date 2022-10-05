@@ -9,6 +9,34 @@ from RealEstateApp.settings import MEDIA_ROOT
 
 
 def index(request):
+
+    #all_data = Document.objects.all()
+
+    fields = ["city","calendar_week", "raw_entries", "clean_entries", 
+    "avg_price_sqrm", "avg_size", "avg_year"]
+
+    # if request.method == "POST":
+    #     city_name = request.POST.get("df")
+    #     datasets = Document.objects.filter(city=city_name)
+    # else:
+    #     city_name = "Zagreb"
+    #     datasets = Document.objects.filter(city=city_name)
+    #     queryset = Document.objects.values_list(fields)
+    #     df = pd.DataFrame(list(queryset), columns=fields)     
+
+    city_name = "Zagreb"
+    datasets = Document.objects.filter(city=city_name).values_list("city","calendar_week", "raw_entries", "clean_entries", "avg_price_sqrm", "avg_size", "avg_year")
+    df = pd.DataFrame(list(datasets), columns=fields) 
+
+    plot = city_plot(df, city_name)
+
+    context = {'plot':plot}
+
+
+    return render(request, 'dashboard/index.html',context)
+
+
+def deepDive(request):
     all_data = Document.objects.all()
 
     if request.method == "POST":
@@ -45,7 +73,7 @@ def index(request):
     lines_df = lines_df.sort_values(by=["Cijena"])
     lines = lines_df.values.tolist()
 
-    context = {'labels':labels, 'values':data_values ,'general_data':general_data, 
+    context = {'file_download':dataset.document,'price_per_sqm':price_per_sqm, 'labels':labels, 'values':data_values ,'general_data':general_data, 
             'lines':lines,'year_build': year_build, "price_per_sqm":price_per_sqm,
             "max": [dataset.highest_price, dataset.highest_price_link],
             "max_per_sqr" : [dataset.highest_price_sqrm, dataset.highest_price_sqrm_link], "min" : [dataset.lowest_price, dataset.lowest_price_link], 
