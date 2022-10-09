@@ -1,72 +1,11 @@
+{% extends "dashboard/base.html" %}
 {% load humanize %}
 {% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Estate Analytics Dashboard</title>
-    {% load static %}
-
-    <link rel="stylesheet" type="text/css"  href="{% static 'css/style.css' %}">  
-    <!-- <script src="{% static 'js/app.js' %}"></script>    -->
-</head>
-<body>
-    <div class="container">
-        <diiv class="navigation">
-            <ul>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="bug-outline"></ion-icon></span>
-                        <span class="title">Brand Name</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="game-controller-outline"></ion-icon></span>
-                        <span class="title">Rijeka</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="trending-up-outline"></ion-icon></span>
-                        <span class="title">Rovinj</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="trending-down-outline"></ion-icon></span>
-                        <span class="title">Split</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="videocam-off-outline"></ion-icon></span>
-                        <span class="title">Varazdin</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- main -->
+{% block content %}
         <div class="main">
-            <!-- <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu outline"></ion-icon>
-                </div> -->
-                <!-- search -->
-                <!-- <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search here">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
-                <div class="user">
-                    <img src="user.jpg">
-                </div>
-            </div> -->
+
+
+
             <div class="cardBox">
                 <div class="card">
                     <div>
@@ -122,18 +61,6 @@
                     <div class="chartHeader">
                         <h2>Average price per year build</h2>
                     </div>
-                    <div>
-                        {% autoescape off %}
-                        {{ year_build }}
-                        {% endautoescape %}
-                    </div>
-                </div>
-
-
-                <div class="chartAveragePerYear">
-                    <div class="chartHeader">
-                        <h2>Average price per year build</h2>
-                    </div>
                     <canvas id="myChart" width="400" height="100"></canvas>  
                     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
@@ -180,6 +107,20 @@
                     </script>
 
                 </div>
+
+                <div class="chartAveragePerYear">
+                    <div class="chartHeader">
+                        <h2>Average price per year build</h2>
+                    </div>
+                    <div>
+                        {% autoescape off %}
+                        {{ year_build }}
+                        {% endautoescape %}
+                    </div>
+                </div>
+
+
+
 
             </div>
 
@@ -292,5 +233,6 @@
         list.forEach((item) =>
         item.addEventListener('mouseover', activeLink));
     </script>
+    {% endblock %}
 </body>
 </html>
