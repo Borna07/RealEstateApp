@@ -8,11 +8,6 @@
     {% for dataset in datasets %}
     <tr>
         <td>
-            <!-- <form action="" method="post">
-            <input type="hidden" name="{{ dataset.calendar_week }}" value="{{ dataset.id }}">
-            <input type="submit" value="{{ request.path|split:"/"}} {{ dataset.calendar_week }}">
-            {% csrf_token %}
-            </form> -->
 
             <a href="{% url 'deepDive' request.path|split:'/' dataset.calendar_week %}">
                 <span class="icon"><ion-icon name="game-controller-outline"></ion-icon></span>
@@ -25,39 +20,43 @@
     <div class="charts">
         <div class="chartStatDistribution">
             <div class="chartHeader">
-                <canvas id="line-chart" width="400" height="100"></canvas>  
-                <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                <canvas id="avg_price_sqrm" width="400" height="100"></canvas>  
+              
+            </div>
+        </div>
 
-                <script type="text/javascript">
-                   
-                    const ctx = document.getElementById('line-chart');
-                    const myChart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: [{%for label in x_values %}'{{label}}',{%endfor%}],
-                            datasets: [{
-                                label: 'price/sqrm',
-                                data: [{%for value in y_values %}{{value}},{%endfor%}],
-                                borderColor: "#3e95cd",
-                                borderWidth: 1,
-                                fill: false,
-                                tension: 0.1
-                            }]
-                        },
-                        options: {
-                            title: {
-                                display: true,
-                                text : "TEST123"
-                                }
-                            }
-                        
-                    });
-                </script>
+        <!-- <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="clean_entries" width="400" height="100"></canvas>  
+
+            </div>
+        </div> -->
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="entries" width="400" height="100"></canvas>  
+              
             </div>
         </div>
 
 
-        {% for plot_fig in plot %}
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_size" width="400" height="100"></canvas>  
+                
+            </div>
+        </div>
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_year" width="400" height="100"></canvas>  
+                
+            </div>
+        </div>
+
+
+
+        <!-- {% for plot_fig in plot %}
         <div class="chartStatDistribution">
             <div class="chartHeader">
                 <h2>{{ plot_fig.1 }}</h2>
@@ -68,10 +67,189 @@
                 {% endautoescape %}
             </div>
         </div>
-        {% endfor %}
+        {% endfor %} -->
     </div>
 
 </div>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+<script type="text/javascript">
+   
+    const ctx = document.getElementById('avg_price_sqrm');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [{%for label in x_values %}'{{label}}',{%endfor%}],
+            datasets: [{
+                label: 'price/sqrm',
+                data: [{%for value in avg_price_sqrm %}{{value}},{%endfor%}],
+                borderColor: "#3e95cd",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            // scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero: false,
+            //                     max: 4600,
+            //                     min: 1500
+            //                 }
+            //             }]
+            //         },
+            title: {
+                display: true,
+                text : "Average price per square meter"
+                },
+
+            }
+        
+    });
+
+
+    // const ctx_clean_entries = document.getElementById('clean_entries');
+    // const myChart_clean_entries = new Chart(ctx_clean_entries, {
+    //     type: 'line',
+    //     data: {
+    //         labels: [{%for label in x_values %}'{{label}}',{%endfor%}],
+    //         datasets: [{
+    //             label: 'price/sqrm',
+    //             data: [{%for value in clean_entries %}{{value}},{%endfor%}],
+    //             borderColor: "#3e95cd",
+    //             borderWidth: 1,
+    //             fill: false,
+    //             tension: 0.1
+    //         }]
+    //     },
+    //     options: {
+    //         // scales: {
+    //         //             yAxes: [{
+    //         //                 ticks: {
+    //         //                     beginAtZero: false,
+    //         //                     max: 4600,
+    //         //                     min: 1500
+    //         //                 }
+    //         //             }]
+    //         //         },
+    //         title: {
+    //             display: true,
+    //             text : "Number of clean listings"
+    //             },
+
+    //         }
+        
+    // });
+
+    const ctx_raw_entries = document.getElementById('entries');
+    const myChart_raw_entries = new Chart(ctx_raw_entries, {
+        type: 'line',
+        data: {
+            labels: [{%for label in x_values %}'{{label}}',{%endfor%}],
+            datasets: [{
+                label: 'total listings',
+                data: [{%for value in raw_entries %}{{value}},{%endfor%}],
+                borderColor: "#3e95cd",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1
+            },
+                    {
+                label: 'clean listings',
+                data: [{%for value in clean_entries %}{{value}},{%endfor%}],
+                borderColor: "#00FF00",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            // scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero: false,
+            //                     max: 4600,
+            //                     min: 1500
+            //                 }
+            //             }]
+            //         },
+            title: {
+                display: true,
+                text : "Number of listings"
+                },
+
+            }
+        
+    });
+
+
+    var avg_sizeData = [{% for x_avg_size, y_avg_size in  avg_size %}
+                        {x : {{x_avg_size}}, y: {{y_avg_size}}}, {% endfor %}]
+        
+    const ctxAvg_size = document.getElementById('avg_size');
+    var scatterChart = new Chart(ctxAvg_size, {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'Average size',
+            data: avg_sizeData,
+            pointRadius: 10,
+            showLine: false,
+            pointBackgroundColor: 'rgba(255, 0, 0, 0.4)',
+
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom'
+            }]
+        }
+    }
+    });
+
+
+    var avg_sizeData = [{% for x_avg_year, y_avg_year in  avg_year %}
+                        {x : {{x_avg_year}}, y: {{y_avg_year}}}, {% endfor %}]
+        
+    const ctxavg_year = document.getElementById('avg_year');
+    var scatterChart = new Chart(ctxavg_year, {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'Average year',
+            data: avg_sizeData,
+            pointRadius: 10,
+            showLine: false,
+            pointBackgroundColor: 'rgba(245, 149, 33, 0.8)',
+
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom'
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: false,
+                    max: 2080,
+                    min: 1800,
+                }
+            }]
+        },
+        interaction: {
+            axis: 'x'
+        }
+    }
+    });
+
+
+</script>
 
 {% endblock %}

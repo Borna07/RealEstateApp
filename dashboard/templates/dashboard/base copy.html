@@ -19,40 +19,34 @@
         <div class="navigation">
             <ul>
                 <li>
-                    <a href="{% url 'index' %}">
+                    <a href="#">
                         <span class="icon"><ion-icon name="bug-outline"></ion-icon></span>
-                        <span class="title">Home</span>
+                        <span class="title">Brand Name</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'get-city-data' 'Rijeka' %}">
+                    <a href="{% url 'get-city-data' city_name=Rijeka %}">
 
                         <span class="icon"><ion-icon name="game-controller-outline"></ion-icon></span>
                         <span class="title">Rijeka</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'get-city-data' 'Rovinj' %}">
+                    <a href="{% url 'get-city-data' city_name=Rovinj %}">
                         <span class="icon"><ion-icon name="trending-up-outline"></ion-icon></span>
                         <span class="title">Rovinj</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'get-city-data' 'Split' %}">
+                    <a href="{% url 'get-city-data' city_name=Split %}">
                         <span class="icon"><ion-icon name="trending-down-outline"></ion-icon></span>
                         <span class="title">Split</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'get-city-data' 'Varazdin' %}">
+                    <a href="#">
                         <span class="icon"><ion-icon name="videocam-off-outline"></ion-icon></span>
                         <span class="title">Varazdin</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'get-city-data' 'Zagreb' %}">
-                        <span class="icon"><ion-icon name="videocam-off-outline"></ion-icon></span>
-                        <span class="title">Zagreb</span>
                     </a>
                 </li>
             </ul>

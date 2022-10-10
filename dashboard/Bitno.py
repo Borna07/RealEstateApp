@@ -98,6 +98,20 @@ def fig_price_per_sqm(df1):
 
     return plot_div
 
+
+def all_cities_plot(df):
+    fields = ["avg_price_sqrm", "avg_size", "avg_year","raw_entries", "clean_entries",]
+    output = []
+    
+    for field in fields:
+        fig = px.line(df, x="calendar_week", y=field, markers=True, color = 'city')
+        plot_div = plot(fig, output_type='div')
+        title= field
+        output.append([plot_div, title])
+    
+    return output
+
+
 def city_plot(df, city_name):
     fields = ["avg_price_sqrm", "avg_size", "avg_year","raw_entries", "clean_entries",]
     output = []
