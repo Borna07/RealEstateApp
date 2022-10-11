@@ -106,6 +106,9 @@ def deepDive(request, city_name=None, week = None):
     lines_df = lines_df.sort_values(by=["Cijena"])
     lines = lines_df.values.tolist()
 
+
+    print([dataset.highest_price_sqrm, dataset.highest_price_sqrm_link])
+
     context = {'datasets' : datasets, 'file_download':dataset.document,'price_per_sqm':price_per_sqm, 'labels':labels, 'values':data_values ,'general_data':general_data, 
             'lines':lines,'year_build': year_build, "price_per_sqm":price_per_sqm,
             "max": [dataset.highest_price, dataset.highest_price_link],

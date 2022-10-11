@@ -40,20 +40,6 @@
         </div>
 
 
-        <div class="chartStatDistribution">
-            <div class="chartHeader">
-                <canvas id="avg_size" width="400" height="100"></canvas>  
-                
-            </div>
-        </div>
-
-        <div class="chartStatDistribution">
-            <div class="chartHeader">
-                <canvas id="avg_year" width="400" height="100"></canvas>  
-                
-            </div>
-        </div>
-
 
 
         <!-- {% for plot_fig in plot %}
@@ -69,6 +55,25 @@
         </div>
         {% endfor %} -->
     </div>
+
+    <div class="chartsTwoPerRow">
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_size" width="400" height="100"></canvas>  
+                
+            </div>
+        </div>
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_year" width="400" height="100"></canvas>  
+                
+            </div>
+        </div>
+    </div>    
+
+
+
 
 </div>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -194,7 +199,7 @@
     type: 'scatter',
     data: {
         datasets: [{
-            label: 'Average size',
+            label: 'Average real estate size',
             data: avg_sizeData,
             pointRadius: 10,
             showLine: false,
@@ -221,7 +226,7 @@
     type: 'scatter',
     data: {
         datasets: [{
-            label: 'Average year',
+            label: 'Median year of structure build',
             data: avg_sizeData,
             pointRadius: 10,
             showLine: false,
