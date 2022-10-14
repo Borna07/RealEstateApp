@@ -9,7 +9,7 @@
             <div class="cardBox">
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ general_data.0 }}</div>
+                        <div class="numbers" data-val="{{ general_data.0 }}">000</div>
                         <div class="cardName">Number of listings:</div>
                     </div>
                     <div class="iconBx">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ general_data.1 }} €/m²</div>
+                        <div class="numbers" data-val="{{ general_data.1 }} €/m²">0000 €/m²</div>
                         <div class="cardName">Average price/sqrm</div>
                     </div>
                     <div class="iconBx">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ general_data.2 }} m²</div>
+                        <div class="numbers" data-val="{{ general_data.2 }}">0000</div>
                         <div class="cardName">Average size</div>
                     </div>
                     <div class="iconBx">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ general_data.3 }}</div>
+                        <div class="numbers" data-val="{{ general_data.3 }}">0000</div>
                         <div class="cardName">Average year</div>
                     </div>
                     <div class="iconBx">
@@ -81,7 +81,6 @@
                             colours.push(randomColorGenerator());
                         });
 
-                        console.log(colours)
 
                         const ctx = document.getElementById('myChart').getContext('2d');
                         const myChart = new Chart(ctx, {
@@ -127,7 +126,7 @@
             <div class="cardBox">
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ max.0 }} €</div>
+                        <div class="numbers" data-val="{{ max.0 }}">000</div>
                         <div class="cardName">Highest price</div>
                     </div>
                     <div class="iconBx">
@@ -138,7 +137,7 @@
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ max_per_sqr.0 }} €/m²</div>
+                        <div class="numbers" data-val="{{ max_per_sqr.0 }}">0000 </div>
                         <div class="cardName">Highest price/sqrm</div>
                     </div>
                     <div class="iconBx">
@@ -149,7 +148,7 @@
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ min.0 }} €</div>
+                        <div class="numbers" data-val="{{ min.0 }}">0000</div>
                         <div class="cardName">Lowest price</div>
                     </div>
                     <div class="iconBx">
@@ -160,7 +159,7 @@
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers">{{ min_per_sqr.0 }} €/m²</div>
+                        <div class="numbers" data-val="{{ min_per_sqr.0 }}">0000</div>
                         <div class="cardName">Lowest price/sqrm</div>
                     </div>
                     <div class="iconBx">
@@ -212,6 +211,31 @@
     <!-- <script src="{% static 'js/my_chart copy.js' %}"></script>    -->
 
     <script>
+        //Counter
+        let valueDisplays = document.querySelectorAll(".numbers");
+        let interval = 4000;
+        valueDisplays.forEach((valueDisplay) => {
+        let endValue = parseInt(valueDisplay.getAttribute("data-val"));
+        let startValue = 0;
+        if (endValue > 1000) {
+            startValue = endValue - 400;
+        } else {
+            startValue = 0;
+        };
+        let duration = Math.floor(interval / endValue);
+        // let duration = 1;
+        let counter = setInterval(function () {
+            startValue += 1;
+            valueDisplay.textContent = startValue;
+            if (startValue == endValue) {
+            clearInterval(counter);
+            }
+        }, 1);
+        });
+    </script>
+    {% endblock %}
+</body>
+<script>
         // MenuToggle
         let toggle = document.querySelector('.toggle');
         let navigation = document.querySelector('.navigation');
@@ -232,7 +256,5 @@
         }
         list.forEach((item) =>
         item.addEventListener('mouseover', activeLink));
-    </script>
-    {% endblock %}
-</body>
+</script>
 </html>

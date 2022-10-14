@@ -19,14 +19,10 @@ class Command(BaseCommand):
         st = time.time()
 
 
-        url = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojamZup=1166&tipoglasa=1&sortby=1&elementsNum=100&city=1638&naselje=0&cijenaod=0&cijenado=21000000&vezani_na=988-887_562-563_978-1334&num=1"
-        URL_rovinj = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojam=&sortby=1&elementsNum=100&cijenaod=0&cijenado=21000000&tipoglasa=1&pojamZup=1154&city=1294&naselje=3374&attr_Int_988=&attr_Int_887=&attr_bit_stan=&attr_bit_brojEtaza=&attr_gr_93_1=&attr_gr_93_2=&attr_Int_978=&attr_Int_1334=&attr_bit_eneregetskiCertifikat=&vezani_na=988-887_562-563_978-1334"
-        URL_zg = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojam=&sortby=1&elementsNum=100&cijenaod=0&cijenado=21000000&tipoglasa=1&pojamZup=1153&city=&naselje=&attr_Int_988=&attr_Int_887=&attr_bit_stan=&attr_bit_brojEtaza=&attr_gr_93_1=&attr_gr_93_2=&attr_Int_978=&attr_Int_1334=&attr_bit_eneregetskiCertifikat=&vezani_na=988-887_562-563_978-1334"
+        url = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojam=&sortby=1&elementsNum=100&cijenaod=0&cijenado=21000000&tipoglasa=1&pojamZup=1169&grad=1725&naselje=&attr_Int_988=&attr_Int_887=&attr_bit_stan=&attr_bit_brojEtaza=&attr_gr_93_1=&attr_gr_93_2=&attr_Int_978=&attr_Int_1334=&attr_bit_eneregetskiCertifikat=&vezani_na=988-887_562-563_978-1334"
 
-
-        url = URL_zg
-        city_name = "Zagreb"
-        ime = "_zagreb"
+        city_name = "Zadar"
+        ime = "_zadar"
 
 
 

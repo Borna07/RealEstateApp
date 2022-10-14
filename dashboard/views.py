@@ -19,15 +19,31 @@ def index(request):
     "avg_price_sqrm", "avg_size", "avg_year"]
 
     
-    df = pd.DataFrame.from_records(Document.objects.all().values_list("city","calendar_week", "raw_entries", "clean_entries", 
-                                "avg_price_sqrm", "avg_size", "avg_year"), columns = fields)
+    datasets_values = Document.objects.all().values_list("city","calendar_week", "raw_entries", "clean_entries", 
+                                "avg_price_sqrm", "avg_size", "avg_year")
+    df = pd.DataFrame.from_records(datasets_values, columns = fields)
 
     # datasets = Document.objects.filter(city=city_name).values_list("city","calendar_week", "raw_entries", "clean_entries", "avg_price_sqrm", "avg_size", "avg_year")
     # df = pd.DataFrame(list(datasets), columns=fields) 
 
+    df['calendar_week'] = df['calendar_week'].astype(int)
+
+    x_values = list(df['calendar_week'].unique())
+    datasets_zg = Document.objects.filter(city="Zagreb").values_list("city","calendar_week", "raw_entries", "clean_entries", 
+                                "avg_price_sqrm", "avg_size", "avg_year")
+    datasets_st = Document.objects.filter(city="Split").values_list("city","calendar_week", "raw_entries", "clean_entries", 
+                                "avg_price_sqrm", "avg_size", "avg_year")
+    datasets_ri = Document.objects.filter(city="Rijeka").values_list("city","calendar_week", "raw_entries", "clean_entries", 
+                                "avg_price_sqrm", "avg_size", "avg_year")
+
+    y_zg = [value[4] for value in datasets_zg]
+    y_st = [value[4] for value in datasets_st]
+    y_ri = [value[4] for value in datasets_ri]
+
+
     plot = all_cities_plot(df)
 
-    context = {'plot':plot}
+    context = {'plot':plot, 'y_zg':y_zg, 'y_ri':y_ri, 'y_st':y_st,'x_values':x_values}
 
 
     return render(request, 'dashboard/index.html',context)

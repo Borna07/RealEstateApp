@@ -4,6 +4,14 @@
 {% block content %}
 <div class="main">
     <div class="charts">
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+
+                <canvas id="avg_price_sqrm" width="400" height="100"></canvas>  
+
+
+            </div>
+        </div>
         {% for plot_fig in plot %}
         <div class="chartStatDistribution">
             <div class="chartHeader">
@@ -20,5 +28,55 @@
 
 </div>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+
+    const ctx_avg_price_sqrm = document.getElementById('avg_price_sqrm');
+    const myChart_raw_entries = new Chart(ctx_avg_price_sqrm, {
+        type: 'line',
+        data: {
+            labels: [{%for label in x_values %}'{{label}}',{%endfor%}],
+            datasets: [{
+                label: 'Zagreb',
+                data: [,,0,0,0,2456,5423,1345,5234],
+                borderColor: "#3e95cd",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1
+            },
+                    {
+                label: 'Split',
+                data: [{%for value in y_st %}{{value}},{%endfor%}],
+                borderColor: "#00FF00",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            // scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero: false,
+            //                     max: 4600,
+            //                     min: 1500
+            //                 }
+            //             }]
+            //         },
+            title: {
+                display: true,
+                text : "Number of listings"
+                },
+
+            }
+        
+    });
+</script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
 {% endblock %}

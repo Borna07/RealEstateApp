@@ -6,6 +6,7 @@ from dashboard.Bitno import *
 from datetime import datetime
 from RealEstateApp.settings import MEDIA_ROOT
 pd.options.mode.chained_assignment = None 
+import time
 
 
 
@@ -15,9 +16,10 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
 
+        # get the start time
+        st = time.time()
+
         url = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojamZup=1166&tipoglasa=1&sortby=1&elementsNum=100&city=1638&naselje=0&cijenaod=0&cijenado=21000000&vezani_na=988-887_562-563_978-1334&num=1"
-        URL_rovinj = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojam=&sortby=1&elementsNum=100&cijenaod=0&cijenado=21000000&tipoglasa=1&pojamZup=1154&city=1294&naselje=3374&attr_Int_988=&attr_Int_887=&attr_bit_stan=&attr_bit_brojEtaza=&attr_gr_93_1=&attr_gr_93_2=&attr_Int_978=&attr_Int_1334=&attr_bit_eneregetskiCertifikat=&vezani_na=988-887_562-563_978-1334"
-        URL_zg = "https://www.index.hr/oglasi/prodaja-stanova/gid/3278?pojam=&sortby=1&elementsNum=100&cijenaod=0&cijenado=21000000&tipoglasa=1&pojamZup=1153&city=&naselje=&attr_Int_988=&attr_Int_887=&attr_bit_stan=&attr_bit_brojEtaza=&attr_gr_93_1=&attr_gr_93_2=&attr_Int_978=&attr_Int_1334=&attr_bit_eneregetskiCertifikat=&vezani_na=988-887_562-563_978-1334"
 
         city_name = "Varazdin"
         ime = "_varazdin"
@@ -96,7 +98,14 @@ class Command(BaseCommand):
             lowest_price = min[0], lowest_price_link = min[1], lowest_price_sqrm = min_per_sqr[0],
             lowest_price_sqrm_link = min_per_sqr[1]
         )
-        print('%s added' % (city_name))
+
+        # get the end time
+        et = time.time()
+
+        # get the execution time
+        elapsed_time = et - st
+        elapsed_time_min = elapsed_time/60
+        print('Execution time:', elapsed_time_min, 'minutes')
         self.stdout.write( 'job complete' )
 
 
