@@ -16,6 +16,9 @@
         </td>
     </tr>
     {% endfor %}
+
+    
+
     </div>
     <div class="charts">
         <div class="chartStatDistribution">
@@ -115,7 +118,30 @@
         
     });
 
+    // TEST FOR ON CLICK
+    // var canvasP = document.getElementById("myChart");
 
+    // canvasP.onclick = function(e) {
+    // var slice = myChart.getElementAtEvent(e);
+    // if (!slice.length) return; // return if not clicked on slice
+    // var label = slice[0]._model.label;
+    // switch (label) {
+    //     // add case for each label/slice
+    //     case '34':
+    //         alert('clicked on slice 5');
+    //         window.open('www.example.com/foo');
+    //         break;
+    //     case '33':
+    //         alert('clicked on slice 6');
+    //         window.open('www.example.com/bar');
+    //         break;
+    //     // add rests ...
+    //     }
+    // };
+
+
+
+    
     // const ctx_clean_entries = document.getElementById('clean_entries');
     // const myChart_clean_entries = new Chart(ctx_clean_entries, {
     //     type: 'line',
@@ -256,5 +282,6 @@
 
 
 </script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
 {% endblock %}
