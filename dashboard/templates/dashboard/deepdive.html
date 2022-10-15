@@ -2,8 +2,15 @@
 {% load humanize %}
 {% load static %}
 {% block content %}
-        <div class="main">
-
+        <!-- <div class="main">
+                <div class="topbar">
+                    <div class="links">
+                        <a href="mailto: brunodekadencija@gmail.com"><ion-icon name="mail"></ion-icon></a>
+                        <a href="https://www.linkedin.com/in/borna-molnar-erhati%C4%87/?originalSubdomain=at"><ion-icon name="logo-linkedin"></ion-icon></a>
+                        <a href="https://github.com/Borna07"><ion-icon name="logo-github"></ion-icon></a>
+                    </div>
+                </div> -->
+        
 
 
             <div class="cardBox">
@@ -13,7 +20,7 @@
                         <div class="cardName">Number of listings:</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="happy-outline"></ion-icon>
+                        <ion-icon name="business-outline"></ion-icon>
                     </div>
                 </div>
                 <div class="card">
@@ -22,7 +29,7 @@
                         <div class="cardName">Average price/sqrm</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="happy-outline"></ion-icon>
+                        <ion-icon name="cash-outline"></ion-icon>
                     </div>
                 </div>
                 <div class="card">
@@ -31,7 +38,7 @@
                         <div class="cardName">Average size</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="happy-outline"></ion-icon>
+                        <ion-icon name="home-outline"></ion-icon>
                     </div>
                 </div>
                 <div class="card">
@@ -40,7 +47,7 @@
                         <div class="cardName">Average year</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="happy-outline"></ion-icon>
+                        <ion-icon name="information-circle-outline"></ion-icon>
                     </div>
                 </div>
             </div>
@@ -203,8 +210,8 @@
                 </div>
 
             </div>
-        </div>
-    </div>
+        <!-- </div>
+    </div> -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
@@ -232,9 +239,10 @@
             }
         }, 1);
         });
+
+        
     </script>
-    {% endblock %}
-</body>
+{% endblock %}
 <script>
         // MenuToggle
         let toggle = document.querySelector('.toggle');
@@ -256,5 +264,6 @@
         }
         list.forEach((item) =>
         item.addEventListener('mouseover', activeLink));
+
 </script>
 </html>

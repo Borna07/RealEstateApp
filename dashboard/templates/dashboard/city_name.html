@@ -3,23 +3,11 @@
 {% load static %}
 {% load dashboard_extras %}
 {% block content %}
-<div class="main">
-    <div class="topbar">
-    {% for dataset in datasets %}
-    <tr>
-        <td>
-
-            <a href="{% url 'deepDive' request.path|split:'/' dataset.calendar_week %}">
-                <span class="icon"><ion-icon name="game-controller-outline"></ion-icon></span>
-                <span class="title">"{{ request.path|split:"/"}} {{ dataset.calendar_week }}"</span>
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-
+    <div class="cityName">
+        <span id="cityName">{{ request.path|split:"/"}}</span>
+    </div>
     
 
-    </div>
     <div class="charts">
         <div class="chartStatDistribution">
             <div class="chartHeader">
@@ -76,9 +64,6 @@
     </div>    
 
 
-
-
-</div>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
@@ -97,6 +82,7 @@
                 borderWidth: 1,
                 fill: false,
                 tension: 0.1
+
             }]
         },
         options: {
@@ -118,62 +104,8 @@
         
     });
 
-    // TEST FOR ON CLICK
-    // var canvasP = document.getElementById("myChart");
-
-    // canvasP.onclick = function(e) {
-    // var slice = myChart.getElementAtEvent(e);
-    // if (!slice.length) return; // return if not clicked on slice
-    // var label = slice[0]._model.label;
-    // switch (label) {
-    //     // add case for each label/slice
-    //     case '34':
-    //         alert('clicked on slice 5');
-    //         window.open('www.example.com/foo');
-    //         break;
-    //     case '33':
-    //         alert('clicked on slice 6');
-    //         window.open('www.example.com/bar');
-    //         break;
-    //     // add rests ...
-    //     }
-    // };
 
 
-
-    
-    // const ctx_clean_entries = document.getElementById('clean_entries');
-    // const myChart_clean_entries = new Chart(ctx_clean_entries, {
-    //     type: 'line',
-    //     data: {
-    //         labels: [{%for label in x_values %}'{{label}}',{%endfor%}],
-    //         datasets: [{
-    //             label: 'price/sqrm',
-    //             data: [{%for value in clean_entries %}{{value}},{%endfor%}],
-    //             borderColor: "#3e95cd",
-    //             borderWidth: 1,
-    //             fill: false,
-    //             tension: 0.1
-    //         }]
-    //     },
-    //     options: {
-    //         // scales: {
-    //         //             yAxes: [{
-    //         //                 ticks: {
-    //         //                     beginAtZero: false,
-    //         //                     max: 4600,
-    //         //                     min: 1500
-    //         //                 }
-    //         //             }]
-    //         //         },
-    //         title: {
-    //             display: true,
-    //             text : "Number of clean listings"
-    //             },
-
-    //         }
-        
-    // });
 
     const ctx_raw_entries = document.getElementById('entries');
     const myChart_raw_entries = new Chart(ctx_raw_entries, {
@@ -280,6 +212,24 @@
     }
     });
 
+
+    function clickHandler (click) {
+            const points = myChart.getElementsAtEventForMode(click, 'nearest', { intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                const index_value = firstPoint["_index"];
+                const value = myChart.data.labels[index_value];
+                const city = document.getElementById('cityName').textContent;
+
+                const url = 'http://127.0.0.1:8000/deepdive/' + city + '/' + value
+
+                
+                window.open(url)
+
+
+            }
+        }
+    ctx.onclick = clickHandler;
 
 </script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

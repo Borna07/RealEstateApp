@@ -8,7 +8,7 @@ from plotly.offline import plot
 
 import re
 from datetime import datetime
-from dashboard.models import Document
+from dashboard.models import Document, Rents
 from django.utils import timezone
 from django.core.management.base import BaseCommand, CommandError
 
@@ -162,14 +162,29 @@ def catch_links_all_pages(url):
     page_number = re.sub("[^0-9]", "", page_number)
     fix = "&num="
     
-    #Create a list of all pages with links
     pages = []
-    pages.append(url)
-    for i in range(2,int(page_number)+1):
-            link = url + fix + str(i)
-            pages.append(link)
-    
-    pages = list(set(pages))
+
+    #Check if there are multiple pages in the navigation
+    if not page_nav:
+
+        pages.append(url)
+
+    else:
+        #Take the last navigation element
+        last = page_nav[-1]
+        #Extract the number and clean data
+        page_number = last.find('a').get('href')[-3:]
+        page_number = re.sub("[^0-9]", "", page_number)
+        fix = "&num="
+        # print(page_number)
+
+        #Create a list of all pages with links
+        pages.append(url)
+        for i in range(2,int(page_number)+1):
+                link = url + fix + str(i)
+                pages.append(link)
+
+        pages = list(set(pages))
        
     #Scrape all resluts from every page
     for page in pages:        
@@ -258,3 +273,50 @@ def dataframe_cleaner(df):
 
     return df
 
+
+def dataframe_cleaner_rent(df):
+    #df = pd.DataFrame(data_list)
+
+    #Data Cleaning
+
+    #Drop rows w/o sqm, convert sqm to float
+    df = df[df['Stambena površina u m2'].notna()]
+    df["Stambena površina u m2"] = df["Stambena površina u m2"].str.replace(",",".")
+    df["Stambena površina u m2"] = df["Stambena površina u m2"].astype('float')
+
+    #Convert price to float, remove no price rows, rempve unrealistic low prices
+    df["Cijena"] = df["Cijena"].str.replace("€","")
+
+    df["Cijena"] = df["Cijena"].str.replace(".","")
+    df["Cijena"] = df["Cijena"].str.replace(",",".")
+
+    df["Cijena"] = df["Cijena"].str.replace(" ","")
+
+    df = df[df["Cijena"] != "0,00 "]
+    df["Cijena"] = df["Cijena"].astype('float')
+
+    #Replace Nan with "No info"
+    df['Godina izgradnje'].fillna('No INFO', inplace=True)
+
+
+    #Remove where m2 == 0
+    df = df[df["Cijena"] > 100]
+    df = df[df["Cijena"] < 5000]
+
+    #Remove where m2 == 0
+    df = df[df["Stambena površina u m2"] > 10]
+    df = df[df["Stambena površina u m2"] < 10000]
+
+
+
+
+    #Add a price per sqm meter column
+    df["€/m²"] = round(df["Cijena"] / df["Stambena površina u m2"],2)
+
+    #Convert Datum to datetime
+    df["Datum"] = pd.to_datetime(df["Datum"], format="%d.%m.%Y")
+
+    #Calculate days online
+    df['Days Online'] = ( pd.Timestamp('now') - df['Datum']).dt.days
+
+    return df

@@ -90,15 +90,6 @@ def deepDive(request, city_name=None, week = None):
 
     dataset = Document.objects.get(city = city_name, calendar_week = week)
 
-
-    # if request.method == "POST":
-    #     selected_dataset_id = request.POST.get("df")
-    #     dataset = Document.objects.get(id = selected_dataset_id)
-
-    # else:
-    #     last_dataset_id = Document.objects.latest("uploaded_at").id
-    #     dataset = Document.objects.get(id = last_dataset_id)
-
     general_data = [dataset.clean_entries, dataset.avg_price_sqrm, dataset.avg_size, dataset.avg_year]
 
 
@@ -122,8 +113,6 @@ def deepDive(request, city_name=None, week = None):
     lines_df = lines_df.sort_values(by=["Cijena"])
     lines = lines_df.values.tolist()
 
-
-    print([dataset.highest_price_sqrm, dataset.highest_price_sqrm_link])
 
     context = {'datasets' : datasets, 'file_download':dataset.document,'price_per_sqm':price_per_sqm, 'labels':labels, 'values':data_values ,'general_data':general_data, 
             'lines':lines,'year_build': year_build, "price_per_sqm":price_per_sqm,

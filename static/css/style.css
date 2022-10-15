@@ -173,9 +173,10 @@ body
     width: 100%;
     height: 60px;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     align-items: center;
     padding: 0 10px;
+    float: right;
 }
 
 .toggle
@@ -237,6 +238,13 @@ body
 {
     position: absolute;
 
+}
+
+
+.links
+{
+    font-size: 3em;
+    color: var(--black2);
 }
 
 .cardBox

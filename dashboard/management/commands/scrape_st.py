@@ -78,15 +78,6 @@ class Command(BaseCommand):
 
         time_now = timezone.now()
 
-    #     new_entry = Document(
-    #     document = dj_df, document_raw = dj_df_raw, uploaded_at = time_now,
-    #     calendar_week = time_now.isocalendar().week , raw_entries = dj_raw_entries, clean_entries = dj_clean_entries,
-    #     city = city_name, avg_price_sqrm = dj_avg_price_sqrm, avg_size = dj_avg_size,
-    #     avg_year = dj_avg_year, highest_price = max[0], highest_price_link = max[1],
-    #     highest_price_sqrm = max_per_sqr[0], highest_price_sqrm_link = max_per_sqr[1],
-    #     lowest_price = min[0], lowest_price_link = min[1], lowest_price_sqrm = min_per_sqr[0],
-    #     lowest_price_sqrm_link = min_per_sqr[1]
-    # )
 
 
 
@@ -111,32 +102,3 @@ class Command(BaseCommand):
         print('%s added' % (city_name))
         self.stdout.write( 'job complete' )
 
-
-
-
-# class Command(BaseCommand):
-#     help = "collect jobs"
-#     # define logic of command
-#     def handle(self, *args, **options):
-#         # collect html
-#         html = urlopen('https://jobs.lever.co/opencare')
-#         # convert to soup
-#         soup = BeautifulSoup(html, 'html.parser')
-#         # grab all postings
-#         postings = soup.find_all("div", class_="posting")
-#         for p in postings:
-#             url = p.find('a', class_='posting-btn-submit')['href']
-#             title = p.find('h5').text
-#             location = p.find('span', class_='sort-by-location').text
-#             # check if url in db
-#             try:
-#                 # save in db
-#                 Job.objects.create(
-#                     url=url,
-#                     title=title,
-#                     location=location
-#                 )
-#                 print('%s added' % (title,))
-#             except:
-#                 print('%s already exists' % (title,))
-#         self.stdout.write( 'job complete' )

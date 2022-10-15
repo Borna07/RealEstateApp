@@ -17,13 +17,15 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
 
+
         # get the start time
         st = time.time()
 
         city_name = "Varazdin"
 
-        url = Info[city_name][0]
+        url = Info[city_name][2]
         ime = Info[city_name][1]
+
 
 
         #find all pages
@@ -49,7 +51,7 @@ class Command(BaseCommand):
         dj_df_raw  = df.to_excel(raw_path)
 
         #clean dataframe
-        df = dataframe_cleaner(df)
+        df = dataframe_cleaner_rent(df)
 
         full_ime =  str(current_date) + ime + ".xlsx"
         clean_path = MEDIA_ROOT + "/" + full_ime
@@ -76,11 +78,7 @@ class Command(BaseCommand):
 
         time_now = timezone.now()
 
-
-
-
-
-        Document.objects.create(
+        Rents.objects.create(
             document = full_ime, document_raw = full_ime_raw, uploaded_at = time_now,
             calendar_week = time_now.isocalendar()[1] , raw_entries = dj_raw_entries, clean_entries = dj_clean_entries,
             city = city_name, avg_price_sqrm = dj_avg_price_sqrm, avg_size = dj_avg_size,
@@ -97,5 +95,8 @@ class Command(BaseCommand):
         elapsed_time = et - st
         elapsed_time_min = elapsed_time/60
         print('Execution time:', elapsed_time_min, 'minutes')
-        self.stdout.write( 'job complete' )
+        print('%s added' % (city_name))
+        self.stdout.write( 'Rents job complete' )
+
+
 
