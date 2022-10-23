@@ -57,14 +57,11 @@ def get_city_data(request, city_name=None):
     fields = ["city","calendar_week", "raw_entries", "clean_entries", 
     "avg_price_sqrm", "avg_size", "avg_year"]
 
-
+    #Get sale prices
     datasets = Document.objects.filter(city=city_name)
     datasets_values = datasets.values_list("city","calendar_week", "raw_entries", "clean_entries", "avg_price_sqrm", "avg_size", "avg_year")
     df = pd.DataFrame(list(datasets_values), columns=fields) 
 
-
-
-    #Test für Chart.js
     x_values = [value[1] for value in datasets_values]
     raw_entries = [value[2] for value in datasets_values]
     clean_entries = [value[3] for value in datasets_values]
@@ -75,10 +72,24 @@ def get_city_data(request, city_name=None):
     avg_size = zip(x_values, avg_size)
     avg_year = zip(x_values, avg_year)
 
+    #Get rent prices
+    datases_rent = Rents.objects.filter(city=city_name)
+    datases_rent_values = datases_rent.values_list("city","calendar_week", "raw_entries", "clean_entries", "avg_price_sqrm", "avg_size", "avg_year")
+    df = pd.DataFrame(list(datases_rent_values), columns=fields) 
+
+    x_value_rents = [value[1] for value in datases_rent_values]
+    raw_entries_rents = [value[2] for value in datases_rent_values]
+    clean_entries_rents = [value[3] for value in datases_rent_values]
+    avg_price_sqrm_rents = [value[4] for value in datases_rent_values]
+    raw_entries_rents = [value[2] for value in datases_rent_values]
+    clean_entries_rents = [value[3] for value in datases_rent_values]
+
     plot = city_plot(df, city_name)
 
     context = {'datasets' : datasets,'plot':plot,'x_values':x_values, 'raw_entries':raw_entries, 'clean_entries': clean_entries,
-    'avg_price_sqrm':avg_price_sqrm, 'avg_size':avg_size, 'avg_year': avg_year}
+    'avg_price_sqrm':avg_price_sqrm, 'avg_size':avg_size, 'avg_year': avg_year,
+    'x_value_rents':x_value_rents,'raw_entries_rents':raw_entries_rents, 'clean_entries_rents':clean_entries_rents, 'avg_price_sqrm_rents':avg_price_sqrm_rents,
+    'raw_entries_rents':raw_entries_rents, 'clean_entries_rents':clean_entries_rents}
 
 
     return render(request, 'dashboard/city_name.html',context)

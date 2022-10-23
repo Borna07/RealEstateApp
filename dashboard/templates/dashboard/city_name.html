@@ -5,6 +5,8 @@
 {% block content %}
     <div class="cityName">
         <span id="cityName">{{ request.path|split:"/"}}</span>
+       
+
     </div>
     
 
@@ -12,6 +14,13 @@
         <div class="chartStatDistribution">
             <div class="chartHeader">
                 <canvas id="avg_price_sqrm" width="400" height="100"></canvas>  
+              
+            </div>
+        </div>
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_price_sqrm_rent" width="400" height="100"></canvas>  
               
             </div>
         </div>
@@ -30,7 +39,12 @@
             </div>
         </div>
 
-
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="entries_rents" width="400" height="100"></canvas>  
+              
+            </div>
+        </div>
 
 
         <!-- {% for plot_fig in plot %}
@@ -86,6 +100,16 @@
             }]
         },
         options: {
+            elements: {
+                point: {
+                    radius: 8,
+                    pointHitRadius: 12,
+                    pointHoverRadius: 7,
+                    pointHoverBorderColor: "#e69138",
+                    hoverBackgroundColor: "#27ce00",
+
+                }
+            },
             // scales: {
             //             yAxes: [{
             //                 ticks: {
@@ -105,7 +129,49 @@
     });
 
 
+    const ctx_avg_price_sqrm_rent = document.getElementById('avg_price_sqrm_rent');
+    const myChart_avg_price_sqrm_rent = new Chart(ctx_avg_price_sqrm_rent, {
+        type: 'line',
+        data: {
+            labels: [{%for label in x_value_rents %}'{{label}}',{%endfor%}],
+            datasets: [{
+                label: 'price/sqrm',
+                data: [{%for value in avg_price_sqrm_rents %}{{value}},{%endfor%}],
+                borderColor: "#3e95cd",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1
 
+            }]
+        },
+        options: {
+            elements: {
+                point: {
+                    radius: 8,
+                    pointHitRadius: 12,
+                    pointHoverRadius: 7,
+                    pointHoverBorderColor: "#e69138",
+                    hoverBackgroundColor: "#27ce00",
+
+                }
+            },
+            // scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero: false,
+            //                     max: 4600,
+            //                     min: 1500
+            //                 }
+            //             }]
+            //         },
+            title: {
+                display: true,
+                text : "Average price of rent per square meter"
+                },
+
+            }
+        
+    });
 
     const ctx_raw_entries = document.getElementById('entries');
     const myChart_raw_entries = new Chart(ctx_raw_entries, {
@@ -147,6 +213,40 @@
             }
         
     });
+
+
+    const ctx_entries_rents = document.getElementById('entries_rents');
+    const myChart_entries_rents = new Chart(ctx_entries_rents, {
+        type: 'line',
+        data: {
+            labels: [{%for label in x_values %}'{{label}}',{%endfor%}],
+            datasets: [{
+                label: 'total listings',
+                data: [{%for value in raw_entries_rents %}{{value}},{%endfor%}],
+                borderColor: "#3e95cd",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1
+            },
+                    {
+                label: 'clean listings',
+                data: [{%for value in clean_entries_rents %}{{value}},{%endfor%}],
+                borderColor: "#00FF00",
+                borderWidth: 1,
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text : "Number of rent listings"
+                },
+
+            }
+        
+    });
+
 
 
     var avg_sizeData = [{% for x_avg_size, y_avg_size in  avg_size %}

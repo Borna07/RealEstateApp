@@ -44,14 +44,14 @@ class Command(BaseCommand):
         #check raw entries, save raw dataframe
         dj_raw_entries = len(df.index)
         
-        full_ime_raw = str(current_date) + "_RAW" + ime + ".xlsx"
+        full_ime_raw = str(current_date) + "_RAW" + ime + "_RENT" + ".xlsx"
         raw_path =  MEDIA_ROOT + "/" + full_ime_raw
         dj_df_raw  = df.to_excel(raw_path)
 
         #clean dataframe
         df = dataframe_cleaner_rent(df)
 
-        full_ime =  str(current_date) + ime + ".xlsx"
+        full_ime =  str(current_date) + ime +"_RENT" +  ".xlsx"
         clean_path = MEDIA_ROOT + "/" + full_ime
         dj_df = df.to_excel(clean_path)
         dj_clean_entries = len(df.index)

@@ -88,13 +88,14 @@ def fig_year_build(df):
     return plot_div
 
 
-def fig_price_per_sqm(df1):
-    data_price_per_sqm = df1["€/m²"].describe()
+def fig_price_per_sqm(df):
+    # data_price_per_sqm = df1["€/m²"].describe()
 
-    fig_price_per_sqm = px.bar(data_price_per_sqm , color = data_price_per_sqm,
+    # fig_price_per_sqm = px.bar(data_price_per_sqm , color = data_price_per_sqm,
     # title="Statistical distribution of price per sqrm",
-    labels = {"value": "€/m²"})
-    plot_div = plot(fig_price_per_sqm, output_type='div')
+    fig = px.histogram(df, x="Stambena površina u m2", labels = {"value": "€/m²"})
+    fig.update_xaxes(range = [0,320])
+    plot_div = plot(fig, output_type='div')
 
     return plot_div
 
@@ -155,12 +156,14 @@ def catch_links_all_pages(url):
     #Extract the number of pages from navigation bar
     page_nav_class = soup1.find_all('ul', attrs={'class':"pagination"}) 
     page_nav = page_nav_class[0].find_all('li')
-    #Take the last navigation element
-    last = page_nav[-1]
-    #Extract the number and clean data
-    page_number = last.find('a').get('href')[-3:]
-    page_number = re.sub("[^0-9]", "", page_number)
-    fix = "&num="
+    
+    
+    # #Take the last navigation element
+    # last = page_nav[-1]
+    # #Extract the number and clean data
+    # page_number = last.find('a').get('href')[-3:]
+    # page_number = re.sub("[^0-9]", "", page_number)
+    # fix = "&num="
     
     pages = []
 
