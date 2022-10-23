@@ -88,7 +88,7 @@ def fig_year_build(df):
     return plot_div
 
 
-def fig_price_per_sqm(df):
+def size_hist(df):
     # data_price_per_sqm = df1["€/m²"].describe()
 
     # fig_price_per_sqm = px.bar(data_price_per_sqm , color = data_price_per_sqm,

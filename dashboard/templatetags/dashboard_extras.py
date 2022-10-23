@@ -9,6 +9,16 @@ def split(value, key):
   """
   return value.split(key)[2]
 
+
+@register.filter(name='split_number')
+def split(value, key):
+  """
+    Returns the value turned into a list.
+  """
+  return value.split(key)[3]
+
+
+
 @register.filter(name='split_plus')
 def split(value, key):
   """

@@ -172,12 +172,23 @@ body
 {
     width: 100%;
     height: 60px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    align-items: center;
+    padding: 0 10px;
+}
+
+
+/* .topbar
+{
+    width: 100%;
+    height: 60px;
     display: flex;
     justify-content: right;
     align-items: center;
     padding: 0 10px;
     float: right;
-}
+} */
 
 .toggle
 {
@@ -245,6 +256,9 @@ body
 {
     font-size: 3em;
     color: var(--black2);
+    float: right;
+    position: absolute;
+    right: 0px;
 }
 
 .cardBox

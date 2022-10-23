@@ -108,15 +108,20 @@ def deepDive(request, city_name=None, week = None):
 
     df = pd.read_excel(REPORT_DIR, index_col=0)
 
-    #Test für Chart.js
+    #Data for per year Chart
     data = df.groupby("Godina izgradnje").median()
-
     labels = data.index.tolist()
     data_values = data["€/m²"].values.tolist()
 
+    #Data for per Naselje chart
+    data_per_naselje = df.groupby("Naselje").median()
+    labels_naselje = data_per_naselje.index.to_list()
+    values_naselje= data_per_naselje["€/m²"].values.tolist()
 
-    year_build = fig_year_build(df)
-    price_per_sqm = fig_price_per_sqm(df)
+   
+
+    # year_build = fig_year_build(df)
+    size_histogram = size_hist(df)
 
     #Create table with important data
     lines_df = df[["Godina izgradnje","Cijena","Stambena površina u m2","€/m²", "Link"]]
@@ -125,8 +130,8 @@ def deepDive(request, city_name=None, week = None):
     lines = lines_df.values.tolist()
 
 
-    context = {'datasets' : datasets, 'file_download':dataset.document,'price_per_sqm':price_per_sqm, 'labels':labels, 'values':data_values ,'general_data':general_data, 
-            'lines':lines,'year_build': year_build, "price_per_sqm":price_per_sqm,
+    context = {'datasets' : datasets, 'file_download':dataset.document, 'file_download_raw': dataset.document_raw, 'labels':labels, 'values':data_values ,'general_data':general_data, 
+            'lines':lines, "size_histogram":size_histogram, 'labels_naselje':labels_naselje,'values_naselje':values_naselje,
             "max": [dataset.highest_price, dataset.highest_price_link],
             "max_per_sqr" : [dataset.highest_price_sqrm, dataset.highest_price_sqrm_link], "min" : [dataset.lowest_price, dataset.lowest_price_link], 
             "min_per_sqr" : [dataset.lowest_price_sqrm, dataset.lowest_price_sqrm_link]}
