@@ -4,18 +4,40 @@
 
 {% block content %}
     <div class="charts">
-        <div class="chartStatDistribution">
+        <!-- <div class="chartStatDistribution">
             <div class="chartHeader">
 
                 <canvas id="avg_price_sqrm" width="400" height="100"></canvas>  
 
 
             </div>
-        </div>
-        {% for plot_fig in plot %}
+        </div> -->
         <div class="chartStatDistribution">
             <div class="chartHeader">
-                <h2>{{ plot_fig.1 }}</h2>
+                <h2>{{ plot.1 }} SALE DATA</h2>
+            </div>
+            <div>
+                {% autoescape off %}
+                {{ plot.0 }}
+                {% endautoescape %}
+            </div>
+        </div>
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <h2>{{ plot_rent.1 }} RENT DATA</h2>
+            </div>
+            <div>
+                {% autoescape off %}
+                {{ plot_rent.0 }}
+                {% endautoescape %}
+            </div>
+        </div>
+
+        <!-- {% for plot_fig in plot %}
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <h2>{{ plot_fig.1 }} SALE DATA</h2>
             </div>
             <div>
                 {% autoescape off %}
@@ -24,12 +46,24 @@
             </div>
         </div>
         {% endfor %}
+        {% for plot_fig in plot_rent %}
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <h2>{{ plot_fig.1 }} RENT DATA</h2>
+            </div>
+            <div>
+                {% autoescape off %}
+                {{ plot_fig.0 }}
+                {% endautoescape %}
+            </div>
+        </div>
+        {% endfor %} -->
     </div>
 
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-
+<!-- 
 <script type="text/javascript">
 
     const ctx_avg_price_sqrm = document.getElementById('avg_price_sqrm');
@@ -72,7 +106,7 @@
             }
         
     });
-</script>
+</script> -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
 {% endblock %}

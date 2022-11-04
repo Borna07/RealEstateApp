@@ -424,6 +424,18 @@ body
     margin-top: 10px;
 }
 
+
+.charts .chartTrio{
+    position: relative;
+    width: 100%;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-gap: 30px;
+    marginS-top: 10px;
+}
+
+
 .charts .chartStatDistribution{
     position: relative;
     display: grid;

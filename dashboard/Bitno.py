@@ -100,8 +100,20 @@ def size_hist(df):
     return plot_div
 
 
+def avg_price_plot(df):
+    
+    fig = px.line(df, x="calendar_week", y="avg_price_sqrm", markers=True, color = 'city')
+    plot_div = plot(fig, output_type='div')
+    title= "Average price per square meter"
+    output = [plot_div, title]
+    
+    return output
+
+
 def all_cities_plot(df):
-    fields = ["avg_price_sqrm", "avg_size", "avg_year","raw_entries", "clean_entries",]
+    # fields = ["avg_price_sqrm", "avg_size", "avg_year","raw_entries", "clean_entries",]
+    fields = ["avg_price_sqrm", "raw_entries", "clean_entries",]
+
     output = []
     
     for field in fields:
