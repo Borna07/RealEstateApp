@@ -110,6 +110,8 @@ def deepDive(request, city_name=None, week = None):
     dataset_sale = Document.objects.get(city = city_name, calendar_week = week)
     dataset_rent = Rents.objects.get(city = city_name, calendar_week = week)
     general_data = [dataset_sale.clean_entries, dataset_sale.avg_price_sqrm, dataset_sale.avg_size, dataset_sale.avg_year]
+    general_data_rent = [dataset_rent.clean_entries, dataset_rent.avg_price_sqrm]
+
 
     REPORT_DIR = Path(MEDIA_ROOT) / str(dataset_sale)
     SALE_DIR =  Path(MEDIA_ROOT) / str(dataset_rent)
@@ -152,7 +154,7 @@ def deepDive(request, city_name=None, week = None):
     lines = lines_df.values.tolist()
 
 
-    context = {'price_to_rent':price_to_rent, 'time_till_even':time_till_even,'file_download':dataset_sale.document, 'file_download_raw': dataset_sale.document_raw, 'labels':labels, 'values':data_values ,'general_data':general_data, 
+    context = {'general_data_rent':general_data_rent, 'price_to_rent':price_to_rent, 'time_till_even':time_till_even,'file_download':dataset_sale.document, 'file_download_raw': dataset_sale.document_raw, 'labels':labels, 'values':data_values ,'general_data':general_data, 
             'lines':lines, "size_histogram":size_histogram, 'labels_naselje':labels_naselje,'values_naselje':values_naselje,
             "max": [dataset_sale.highest_price, dataset_sale.highest_price_link],
             "max_per_sqr" : [dataset_sale.highest_price_sqrm, dataset_sale.highest_price_sqrm_link], "min" : [dataset_sale.lowest_price, dataset_sale.lowest_price_link], 

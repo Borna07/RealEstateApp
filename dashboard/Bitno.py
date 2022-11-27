@@ -188,7 +188,7 @@ def catch_links_all_pages(url):
         #Take the last navigation element
         last = page_nav[-1]
         #Extract the number and clean data
-        page_number = last.find('a').get('href')[-3:]
+        page_number = last.find('a').get('hpython ref')[-3:]
         page_number = re.sub("[^0-9]", "", page_number)
         fix = "&num="
         # print(page_number)
