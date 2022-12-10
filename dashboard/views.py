@@ -95,6 +95,8 @@ def get_city_data(request, city_name=None):
 
     plot = city_plot(df, city_name)
 
+
+
     context = {'datasets' : datasets,'plot':plot,'x_values':x_values, 'raw_entries':raw_entries, 'clean_entries': clean_entries,
     'avg_price_sqrm':avg_price_sqrm, 'avg_size':avg_size, 'avg_year': avg_year,
     'x_value_rents':x_value_rents,'raw_entries_rents':raw_entries_rents, 'clean_entries_rents':clean_entries_rents, 'avg_price_sqrm_rents':avg_price_sqrm_rents,
@@ -109,8 +111,9 @@ def deepDive(request, city_name=None, week = None):
     #Get model data
     dataset_sale = Document.objects.get(city = city_name, calendar_week = week)
     dataset_rent = Rents.objects.get(city = city_name, calendar_week = week)
-    general_data = [dataset_sale.clean_entries, dataset_sale.avg_price_sqrm, dataset_sale.avg_size, dataset_sale.avg_year]
-    general_data_rent = [dataset_rent.clean_entries, dataset_rent.avg_price_sqrm]
+
+    general_data = [dataset_sale.clean_entries, dataset_sale.avg_price_sqrm, dataset_sale.avg_size, ]
+    general_data_rent = [dataset_rent.clean_entries, dataset_rent.avg_price_sqrm, dataset_rent.avg_size]
 
 
     REPORT_DIR = Path(MEDIA_ROOT) / str(dataset_sale)
@@ -120,9 +123,13 @@ def deepDive(request, city_name=None, week = None):
     df_sale = pd.read_excel(REPORT_DIR, index_col=0)
     df_rent = pd.read_excel(SALE_DIR, index_col=0)
 
+    #OVO MORA BITI U OBJEKTU
     #price-to-rent ratio
     med_sale_price = df_sale["Cijena"].mean()
     med_rent_price = df_rent["Cijena"].mean()
+
+    general_data.append(med_sale_price)
+    general_data_rent.append(med_rent_price)
 
     price_to_rent = med_sale_price / (med_rent_price * 12)
 
@@ -133,17 +140,25 @@ def deepDive(request, city_name=None, week = None):
 
 
     #Data for per year Chart
-    data = df_sale.groupby("Godina izgradnje").median()
-    labels = data.index.tolist()
-    data_values = data["€/m²"].values.tolist()
+    sale_per_year_build = data_median_for_chart(df_sale , "Godina izgradnje", "€/m²")
+    sale_per_neigbhorhood = data_median_for_chart(df_sale , "Naselje", "€/m²")
 
-    #Data for per Naselje chart
-    data_per_naselje = df_sale.groupby("Naselje").median()
-    labels_naselje = data_per_naselje.index.to_list()
-    values_naselje= data_per_naselje["€/m²"].values.tolist()
+    rent_per_year_build = data_median_for_chart(df_rent , "Godina izgradnje", "€/m²")
+    rent_per_neigbhorhood = data_median_for_chart(df_rent , "Naselje", "€/m²")
 
-   
 
+    #Outliers data
+    sale_outliers = [[dataset_sale.highest_price, dataset_sale.highest_price_link], 
+                    [dataset_sale.highest_price_sqrm, dataset_sale.highest_price_sqrm_link],
+                    [dataset_sale.lowest_price, dataset_sale.lowest_price_link],
+                    [dataset_sale.lowest_price_sqrm, dataset_sale.lowest_price_sqrm_link]]
+
+    rent_outliers = [[dataset_rent.highest_price, dataset_rent.highest_price_link], 
+                    [dataset_rent.highest_price_sqrm, dataset_rent.highest_price_sqrm_link],
+                    [dataset_rent.lowest_price, dataset_rent.lowest_price_link],
+                    [dataset_rent.lowest_price_sqrm, dataset_rent.lowest_price_sqrm_link]]
+
+    print(rent_outliers)
     # year_build = fig_year_build(df_sale)
     size_histogram = size_hist(df_sale)
 
@@ -154,8 +169,11 @@ def deepDive(request, city_name=None, week = None):
     lines = lines_df.values.tolist()
 
 
-    context = {'general_data_rent':general_data_rent, 'price_to_rent':price_to_rent, 'time_till_even':time_till_even,'file_download':dataset_sale.document, 'file_download_raw': dataset_sale.document_raw, 'labels':labels, 'values':data_values ,'general_data':general_data, 
-            'lines':lines, "size_histogram":size_histogram, 'labels_naselje':labels_naselje,'values_naselje':values_naselje,
+    context = {'general_data_rent':general_data_rent, 'price_to_rent':price_to_rent, 'time_till_even':time_till_even,'file_download':dataset_sale.document, 'file_download_raw': dataset_sale.document_raw, 
+            'sale_per_year_build':sale_per_year_build, 'sale_per_neigbhorhood':sale_per_neigbhorhood,
+            'general_data':general_data, 'lines':lines, "size_histogram":size_histogram, 
+            'rent_per_year_build':rent_per_year_build,'rent_per_neigbhorhood':rent_per_neigbhorhood,
+            'sale_outliers':sale_outliers, 'rent_outliers':rent_outliers,
             "max": [dataset_sale.highest_price, dataset_sale.highest_price_link],
             "max_per_sqr" : [dataset_sale.highest_price_sqrm, dataset_sale.highest_price_sqrm_link], "min" : [dataset_sale.lowest_price, dataset_sale.lowest_price_link], 
             "min_per_sqr" : [dataset_sale.lowest_price_sqrm, dataset_sale.lowest_price_sqrm_link]}
@@ -163,49 +181,82 @@ def deepDive(request, city_name=None, week = None):
     return render(request, 'dashboard/deepdive.html',context)
 
 
+# def deepDive(request, city_name=None, week = None):
+    
+#     #Get model data
+#     dataset_sale = Document.objects.get(city = city_name, calendar_week = week)
+#     dataset_rent = Rents.objects.get(city = city_name, calendar_week = week)
+
+#     general_data = [dataset_sale.clean_entries, dataset_sale.avg_price_sqrm, dataset_sale.avg_size, ]
+#     general_data_rent = [dataset_rent.clean_entries, dataset_rent.avg_price_sqrm, dataset_rent.avg_size]
 
 
-# def deepDive(request):
-#     datasets = Document.objects.all()
+#     REPORT_DIR = Path(MEDIA_ROOT) / str(dataset_sale)
+#     SALE_DIR =  Path(MEDIA_ROOT) / str(dataset_rent)
 
-#     if request.method == "POST":
-#         selected_dataset_id = request.POST.get("df")
-#         dataset = Document.objects.get(id = selected_dataset_id)
+#     #Create Dataframes
+#     df_sale = pd.read_excel(REPORT_DIR, index_col=0)
+#     df_rent = pd.read_excel(SALE_DIR, index_col=0)
 
-#     else:
-#         last_dataset_id = Document.objects.latest("uploaded_at").id
-#         dataset = Document.objects.get(id = last_dataset_id)
+#     #OVO MORA BITI U OBJEKTU
+#     #price-to-rent ratio
+#     med_sale_price = df_sale["Cijena"].mean()
+#     med_rent_price = df_rent["Cijena"].mean()
 
-#     general_data = [dataset.clean_entries, dataset.avg_price_sqrm, dataset.avg_size, dataset.avg_year]
+#     general_data.append(med_sale_price)
+#     general_data_rent.append(med_rent_price)
+
+#     price_to_rent = med_sale_price / (med_rent_price * 12)
+
+#     #ROI per m²
+#     avg_price_sale = general_data[1]
+#     avg_price_rent = dataset_rent.avg_price_sqrm
+#     time_till_even = avg_price_sale/(avg_price_rent*12)
 
 
-#     REPORT_DIR = Path(MEDIA_ROOT) / str(dataset)
+#     #Data for per year Chart
 
-#     df = pd.read_excel(REPORT_DIR, index_col=0)
-
-#     #Test für Chart.js
-#     data = df.groupby("Godina izgradnje").median()
-
+    
+#     data = df_sale.groupby("Godina izgradnje").median()
 #     labels = data.index.tolist()
 #     data_values = data["€/m²"].values.tolist()
 
+#     data_rent = df_rent.groupby("Godina izgradnje").median()
+#     labels_rent = data_rent.index.tolist()
+#     data_values_rent = data_rent["€/m²"].values.tolist()
 
-#     year_build = fig_year_build(df)
-#     price_per_sqm = fig_price_per_sqm(df)
+#     #Data for per Naselje chart
+#     data_per_naselje = df_sale.groupby("Naselje").median()
+#     labels_naselje = data_per_naselje.index.to_list()
+#     values_naselje= data_per_naselje["€/m²"].values.tolist()
+
+
+#     data_per_naselje_rent = df_rent.groupby("Naselje").median()
+#     labels_naselje_rent = data_per_naselje_rent.index.to_list()
+#     values_naselje_rent = data_per_naselje_rent["€/m²"].values.tolist()
+
+
+#     # year_build = fig_year_build(df_sale)
+#     size_histogram = size_hist(df_sale)
 
 #     #Create table with important data
-#     lines_df = df[["Godina izgradnje","Cijena","Stambena površina u m2","€/m²", "Link"]]
+#     lines_df = df_sale[["Godina izgradnje","Cijena","Stambena površina u m2","€/m²", "Link"]]
 #     #Sort table according to price
 #     lines_df = lines_df.sort_values(by=["Cijena"])
 #     lines = lines_df.values.tolist()
 
-#     context = {'datasets' : datasets, 'file_download':dataset.document,'price_per_sqm':price_per_sqm, 'labels':labels, 'values':data_values ,'general_data':general_data, 
-#             'lines':lines,'year_build': year_build, "price_per_sqm":price_per_sqm,
-#             "max": [dataset.highest_price, dataset.highest_price_link],
-#             "max_per_sqr" : [dataset.highest_price_sqrm, dataset.highest_price_sqrm_link], "min" : [dataset.lowest_price, dataset.lowest_price_link], 
-#             "min_per_sqr" : [dataset.lowest_price_sqrm, dataset.lowest_price_sqrm_link]}
+
+#     context = {'general_data_rent':general_data_rent, 'price_to_rent':price_to_rent, 'time_till_even':time_till_even,'file_download':dataset_sale.document, 'file_download_raw': dataset_sale.document_raw, 
+#             'labels':labels, 'values':data_values , 'labels_rent':labels_rent, 'data_values_rent':data_values_rent ,
+#             'general_data':general_data, 'lines':lines, "size_histogram":size_histogram, 
+#             'labels_naselje':labels_naselje,'values_naselje':values_naselje,'labels_naselje_rent':labels_naselje_rent,'values_naselje_rent':values_naselje_rent,
+#             "max": [dataset_sale.highest_price, dataset_sale.highest_price_link],
+#             "max_per_sqr" : [dataset_sale.highest_price_sqrm, dataset_sale.highest_price_sqrm_link], "min" : [dataset_sale.lowest_price, dataset_sale.lowest_price_link], 
+#             "min_per_sqr" : [dataset_sale.lowest_price_sqrm, dataset_sale.lowest_price_sqrm_link]}
 
 #     return render(request, 'dashboard/deepdive.html',context)
+
+
 
 
 

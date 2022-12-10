@@ -81,7 +81,7 @@
                             const randomRGB = () => `rgb(${randomNum()}, ${randomNum()}, ${randomNum()})`;
     
     
-                            let test_values = {{ sale_per_year_build.1 }}
+                            let test_values = {{values}}
     
                             var randomColorGenerator = function () { 
                               return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
@@ -98,10 +98,10 @@
                             const myChart = new Chart(ctx, {
                                 type: 'bar',
                                 data: {
-                                    labels: [{%for label in sale_per_year_build.0 %}'{{label}}',{%endfor%}],
+                                    labels: [{%for label in labels %}'{{label}}',{%endfor%}],
                                     datasets: [{
                                         label: 'price/sqrm',
-                                        data: [{%for value in sale_per_year_build.1 %}{{value}},{%endfor%}],
+                                        data: [{%for value in values %}{{value}},{%endfor%}],
                                         backgroundColor: colours, 
                                         borderColor: colours,
                                         borderWidth: 1
@@ -125,6 +125,7 @@
                         </div>
                         <canvas id="myChartNaselje" width="400" height="150"></canvas>  
     
+                        </script>
     
                     </div>
     
@@ -160,44 +161,44 @@
                 <div class="cardBox">
                     <div class="card">
                         <div>
-                            <div class="numbers" data-val="{{ sale_outliers.0.0 }}">000</div>
+                            <div class="numbers" data-val="{{ max.0 }}">000</div>
                             <div class="cardName">Highest price</div>
                         </div>
                         <div class="iconBx">
-                            <a href="{{ sale_outliers.0.1  }}">
+                            <a href="{{ max.1  }}">
                             <ion-icon name="link-outline"></ion-icon>
                             </a>
                         </div>
                     </div>
                     <div class="card">
                         <div>
-                            <div class="numbers" data-val="{{ sale_outliers.1.0 }}">0000 </div>
+                            <div class="numbers" data-val="{{ max_per_sqr.0 }}">0000 </div>
                             <div class="cardName">Highest price/sqrm</div>
                         </div>
                         <div class="iconBx">
-                            <a href="{{ sale_outliers.1.1 }}">
+                            <a href="{{ max_per_sqr.1 }}">
                             <ion-icon name="link-outline"></ion-icon>
                             </a>
                         </div>
                     </div>
                     <div class="card">
                         <div>
-                            <div class="numbers" data-val="{{ sale_outliers.2.0 }}">0000</div>
+                            <div class="numbers" data-val="{{ min.0 }}">0000</div>
                             <div class="cardName">Lowest price</div>
                         </div>
                         <div class="iconBx">
-                            <a href="{{ sale_outliers.2.1 }}">
+                            <a href="{{ min.1  }}">
                             <ion-icon name="link-outline"></ion-icon>
                             </a>
                         </div>
                     </div>
                     <div class="card">
                         <div>
-                            <div class="numbers" data-val="{{ sale_outliers.3.0  }}">0000</div>
+                            <div class="numbers" data-val="{{ min_per_sqr.0 }}">0000</div>
                             <div class="cardName">Lowest price/sqrm</div>
                         </div>
                         <div class="iconBx">
-                            <a href="{{ sale_outliers.3.1  }}">
+                            <a href="{{ min_per_sqr.1  }}">
                             <ion-icon name="link-outline"></ion-icon>
                             </a>
                         </div>
@@ -311,10 +312,10 @@
                             const myChart_Rent = new Chart(ctx_rent, {
                                 type: 'bar',
                                 data: {
-                                    labels: [{%for label in rent_per_year_build.0 %}'{{label}}',{%endfor%}],
+                                    labels: [{%for label in labels_rent %}'{{label}}',{%endfor%}],
                                     datasets: [{
                                         label: 'price/sqrm',
-                                        data: [{%for value in rent_per_year_build.1 %}{{value}},{%endfor%}],
+                                        data: [{%for value in data_values_rent %}{{value}},{%endfor%}],
                                         backgroundColor: colours, 
                                         borderColor: colours,
                                         borderWidth: 1
@@ -344,53 +345,6 @@
 
                 </div>
 
-
-                <div class="cardBox">
-                    <div class="card">
-                        <div>
-                            <div class="numbers" data-val="{{ rent_outliers.0.0 }}">000</div>
-                            <div class="cardName">Highest price</div>
-                        </div>
-                        <div class="iconBx">
-                            <a href="{{ rent_outliers.0.1  }}">
-                            <ion-icon name="link-outline"></ion-icon>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div>
-                            <div class="numbers" data-val="{{ rent_outliers.1.0 }}">0000 </div>
-                            <div class="cardName">Highest price/sqrm</div>
-                        </div>
-                        <div class="iconBx">
-                            <a href="{{ rent_outliers.1.1 }}">
-                            <ion-icon name="link-outline"></ion-icon>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div>
-                            <div class="numbers" data-val="{{ rent_outliers.2.0 }}">0000</div>
-                            <div class="cardName">Lowest price</div>
-                        </div>
-                        <div class="iconBx">
-                            <a href="{{ rent_outliers.2.1 }}">
-                            <ion-icon name="link-outline"></ion-icon>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div>
-                            <div class="numbers" data-val="{{ rent_outliers.3.0  }}">0000</div>
-                            <div class="cardName">Lowest price/sqrm</div>
-                        </div>
-                        <div class="iconBx">
-                            <a href="{{ rent_outliers.3.1  }}">
-                            <ion-icon name="link-outline"></ion-icon>
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
             </div>
 
@@ -435,7 +389,7 @@
 
         //Naslje Chart
 
-        let values_naselje_ = {{sale_per_neigbhorhood.1}}
+        let values_naselje_ = {{values_naselje}}
 
         let colours_naselje = [];
 
@@ -448,10 +402,10 @@
                         const myChartNaselje = new Chart(ctx_naslje, {
                             type: 'bar',
                             data: {
-                                labels: [{%for label in sale_per_neigbhorhood.0 %}'{{label}}',{%endfor%}],
+                                labels: [{%for label in labels_naselje %}'{{label}}',{%endfor%}],
                                 datasets: [{
                                     label: 'price/sqrm',
-                                    data: [{%for value in sale_per_neigbhorhood.1 %}{{value}},{%endfor%}],
+                                    data: [{%for value in values_naselje %}{{value}},{%endfor%}],
                                     backgroundColor: colours_naselje, 
                                     borderColor: colours_naselje,
                                     borderWidth: 1
@@ -468,7 +422,7 @@
 
         //Naslje  Rent Chart
 
-        let values_naselje_rent = {{rent_per_neigbhorhood.1}}
+        let values_naselje_rent = {{values_naselje_rent}}
 
         let colours_naselje_rent = [];
 
@@ -481,10 +435,10 @@
                         const myChartNaseljeRent = new Chart(ctx_naslje_rent, {
                             type: 'bar',
                             data: {
-                                labels: [{%for label in rent_per_neigbhorhood.0 %}'{{label}}',{%endfor%}],
+                                labels: [{%for label in labels_naselje_rent %}'{{label}}',{%endfor%}],
                                 datasets: [{
                                     label: 'price/sqrm',
-                                    data: [{%for value in rent_per_neigbhorhood.1 %}{{value}},{%endfor%}],
+                                    data: [{%for value in values_naselje_rent %}{{value}},{%endfor%}],
                                     backgroundColor: colours_naselje_rent, 
                                     borderColor: colours_naselje_rent,
                                     borderWidth: 1

@@ -10,49 +10,72 @@
     </div>
     
 
-    <div class="middle">
-
-        <div class="sale">
-            <div class="charts">
-                <div class="chartStatDistribution">
-                    <div class="chartHeader">
-                        <canvas id="avg_price_sqrm" width="300" height="150"></canvas>  
-                        <canvas id="entries" width="300" height="150"></canvas>  
-
-                    </div>
-                </div>
- 
-                    <div class="chartStatDistribution">
-                        <div class="chartHeader">
-                            <canvas id="avg_size" width="300" height="150"></canvas>  
-                            <canvas id="avg_year" width="300" height="150"></canvas>  
-
-                        </div>
-                    </div>
-            
-
-                 
+    <div class="charts">
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_price_sqrm" width="400" height="100"></canvas>  
+              
             </div>
         </div>
 
-        <div class="rent">
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_price_sqrm_rent" width="400" height="100"></canvas>  
+              
+            </div>
+        </div>
 
-            <div class="charts">
-                <div class="chartStatDistribution">
-                    <div class="chartHeader">
-                        <canvas id="avg_price_sqrm_rent" width="300" height="150"></canvas>  
-                        <canvas id="entries_rents" width="300" height="150"></canvas>  
-                    </div>
-                </div>
+        <!-- <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="clean_entries" width="400" height="100"></canvas>  
 
+            </div>
+        </div> -->
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="entries" width="400" height="100"></canvas>  
+              
+            </div>
+        </div>
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="entries_rents" width="400" height="100"></canvas>  
+              
             </div>
         </div>
 
 
+        <!-- {% for plot_fig in plot %}
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <h2>{{ plot_fig.1 }}</h2>
+            </div>
+            <div>
+                {% autoescape off %}
+                {{ plot_fig.0 }}
+                {% endautoescape %}
+            </div>
+        </div>
+        {% endfor %} -->
     </div>
 
+    <div class="chartsTwoPerRow">
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_size" width="400" height="100"></canvas>  
+                
+            </div>
+        </div>
 
-
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <canvas id="avg_year" width="400" height="100"></canvas>  
+                
+            </div>
+        </div>
+    </div>    
 
 
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

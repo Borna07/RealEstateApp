@@ -188,7 +188,7 @@ def catch_links_all_pages(url):
         #Take the last navigation element
         last = page_nav[-1]
         #Extract the number and clean data
-        page_number = last.find('a').get('hpython ref')[-3:]
+        page_number = last.find('a').get('href')[-3:]
         page_number = re.sub("[^0-9]", "", page_number)
         fix = "&num="
         # print(page_number)
@@ -335,3 +335,10 @@ def dataframe_cleaner_rent(df):
     df['Days Online'] = ( pd.Timestamp('now') - df['Datum']).dt.days
 
     return df
+
+def data_median_for_chart(dataframe: pd.DataFrame, group_colum: str, values_column: str):
+    data = dataframe.groupby(group_colum).median()
+    labels = data.index.tolist()
+    data_values = data[values_column].values.tolist()
+
+    return [labels, data_values]

@@ -29,3 +29,6 @@ Info = {
     67.349]
 
 }
+
+#   python manage.py scrape_vz
+#   python manage.py scrape_rent_vz

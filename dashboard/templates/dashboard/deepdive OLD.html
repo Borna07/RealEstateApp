@@ -1,108 +1,134 @@
-{% extends "dashboard/base.html" %}
 {% load humanize %}
 {% load static %}
-{% load dashboard_extras %}
-{% block content %}
-        <div class="topbar">
-            <div class="navi">
-                <span id="cityName">{{ request.path|split:"/" }}</span>
-                <span id="cityName">{{ request.path|split_number:"/" }}</span>
 
-                <a href="{% url 'deepDive' request.path|split:'/' request.path|split_number:"/"|add:"-1" %}" class="btn">
-                    <span class="title">Previous Dateset</span>
-                </a>
-                <a href="{{file_download.url}}" class="btn">Download dataset</a>
-                <a href="{{file_download_raw.url}}" class="btn">Download raw dataset</a>
-                <a href="{% url 'deepDive' request.path|split:'/' request.path|split_number:"/"|add:"1" %}" class="btn">
-                    <span class="title">Next Dateset</span>
-                </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Analytics Dashboard</title>
+    {% load static %}
 
-
-            </div>
-            <div class="links">
-                <a href="mailto: brunodekadencija@gmail.com"><ion-icon name="mail"></ion-icon></a>
-                <a href="https://www.linkedin.com/in/borna-molnar-erhati%C4%87/?originalSubdomain=at"><ion-icon name="logo-linkedin"></ion-icon></a>
-                <a href="https://github.com/Borna07"><ion-icon name="logo-github"></ion-icon></a>
-            </div>
+    <link rel="stylesheet" type="text/css"  href="{% static 'css/style.css' %}">  
+    <!-- <script src="{% static 'js/app.js' %}"></script>    -->
+</head>
+<body>
+    <div class="container">
+        <diiv class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="bug-outline"></ion-icon></span>
+                        <span class="title">Brand Name</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="game-controller-outline"></ion-icon></span>
+                        <span class="title">Rijeka</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="trending-up-outline"></ion-icon></span>
+                        <span class="title">Rovinj</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="trending-down-outline"></ion-icon></span>
+                        <span class="title">Split</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="videocam-off-outline"></ion-icon></span>
+                        <span class="title">Varazdin</span>
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div class="cardBox">
-            <div class="card">
-                <div>
-                    <div class="numbers" data-val="{{ price_to_rent }}">000</div>
-                    <div class="cardName">Price to rent ratio:</div>
+
+        <!-- main -->
+        <div class="main">
+            <!-- <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu outline"></ion-icon>
+                </div> -->
+                <!-- search -->
+                <!-- <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search here">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
                 </div>
-                <div class="iconBx">
-                    <ion-icon name="business-outline"></ion-icon>
+                <div class="user">
+                    <img src="user.jpg">
                 </div>
-            </div>
-            <div class="card">
-                <div>
-                    <div class="numbers" data-val="{{ time_till_even }} €/m²">0000 €/m²</div>
-                    <div class="cardName">ROI</div>
-                </div>
-                <div class="iconBx">
-                    <ion-icon name="cash-outline"></ion-icon>
-                </div>
-            </div>
-            <div class="card">
-                <div>
-                    <div class="numbers" data-val="{{ general_data_rent.1 }} €/m²">0000 €/m²</div>
-                    <div class="cardName">Average rent</div>
-                </div>
-                <div class="iconBx">
-                    <ion-icon name="home-outline"></ion-icon>
-                </div>
-            </div>
-            <div class="card">
-                <div>
-                    <div class="numbers" data-val="{{ general_data_rent.0 }} €/m²">0000 €/m²</div>
-                    <div class="cardName">Number of listings</div>
-                </div>
-                <div class="iconBx">
-                    <ion-icon name="information-circle-outline"></ion-icon>
-                </div>
-            </div>
-        </div>
+            </div> -->
             <div class="cardBox">
                 <div class="card">
                     <div>
-                        <div class="numbers" data-val="{{ general_data.0 }}">000</div>
+                        <div class="numbers">{{ general_data.0 }}</div>
                         <div class="cardName">Number of listings:</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="business-outline"></ion-icon>
+                        <ion-icon name="happy-outline"></ion-icon>
                     </div>
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers" data-val="{{ general_data.1 }} €/m²">0000 €/m²</div>
+                        <div class="numbers">{{ general_data.1 }} €/m²</div>
                         <div class="cardName">Average price/sqrm</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="cash-outline"></ion-icon>
+                        <ion-icon name="happy-outline"></ion-icon>
                     </div>
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers" data-val="{{ general_data.2 }}">0000</div>
+                        <div class="numbers">{{ general_data.2 }} m²</div>
                         <div class="cardName">Average size</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="home-outline"></ion-icon>
+                        <ion-icon name="happy-outline"></ion-icon>
                     </div>
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers" data-val="{{ general_data.3 }}">0000</div>
+                        <div class="numbers">{{ general_data.3 }}</div>
                         <div class="cardName">Average year</div>
                     </div>
                     <div class="iconBx">
-                        <ion-icon name="information-circle-outline"></ion-icon>
+                        <ion-icon name="happy-outline"></ion-icon>
                     </div>
                 </div>
             </div>
 
             <div class="charts">
+                <div class="chartStatDistribution">
+                    <div class="chartHeader">
+                        <h2>Statistical distribution of price per sqrm</h2>
+                    </div>
+                    <div>
+                        {% autoescape off %}
+                        {{ price_per_sqm }}
+                        {% endautoescape %}
+                    </div>
+                </div>
+                
+                <div class="chartAveragePerYear">
+                    <div class="chartHeader">
+                        <h2>Average price per year build</h2>
+                    </div>
+                    <div>
+                        {% autoescape off %}
+                        {{ year_build }}
+                        {% endautoescape %}
+                    </div>
+                </div>
+
 
                 <div class="chartAveragePerYear">
                     <div class="chartHeader">
@@ -128,6 +154,7 @@
                             colours.push(randomColorGenerator());
                         });
 
+                        console.log(colours)
 
                         const ctx = document.getElementById('myChart').getContext('2d');
                         const myChart = new Chart(ctx, {
@@ -154,49 +181,12 @@
 
                 </div>
 
-                <div class="chartAveragePerYear">
-                    <div class="chartHeader">
-                        <h2>Average price per city neighboorhood</h2>
-                    </div>
-                    <canvas id="myChartNaselje" width="400" height="100"></canvas>  
-
-                    </script>
-
-                </div>
-
-                <div class="chartStatDistribution">
-                    <div class="chartHeader">
-                        <h2>Real estate size histogram</h2>
-                    </div>
-                    <div>
-                        {% autoescape off %}
-                        {{ size_histogram }}
-                        {% endautoescape %}
-                    </div>
-                </div>
-                
-
-
-                <!-- <div class="chartAveragePerYear">
-                    <div class="chartHeader">
-                        <h2>Average price per year build</h2>
-                    </div>
-                    <div>
-                        {% autoescape off %}
-                        {{ year_build }}
-                        {% endautoescape %}
-                    </div>
-                </div> -->
-
-
-
-
             </div>
 
             <div class="cardBox">
                 <div class="card">
                     <div>
-                        <div class="numbers" data-val="{{ max.0 }}">000</div>
+                        <div class="numbers">{{ max.0 }} €</div>
                         <div class="cardName">Highest price</div>
                     </div>
                     <div class="iconBx">
@@ -207,18 +197,18 @@
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers" data-val="{{ max_per_sqr.0 }}">0000 </div>
+                        <div class="numbers">{{ max_per_sqr.0 }} €/m²</div>
                         <div class="cardName">Highest price/sqrm</div>
                     </div>
                     <div class="iconBx">
-                        <a href="{{ max_per_sqr.1 }}">
+                        <a href="{{ max_per_sqr.0  }}">
                         <ion-icon name="link-outline"></ion-icon>
                         </a>
                     </div>
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers" data-val="{{ min.0 }}">0000</div>
+                        <div class="numbers">{{ min.0 }} €</div>
                         <div class="cardName">Lowest price</div>
                     </div>
                     <div class="iconBx">
@@ -229,7 +219,7 @@
                 </div>
                 <div class="card">
                     <div>
-                        <div class="numbers" data-val="{{ min_per_sqr.0 }}">0000</div>
+                        <div class="numbers">{{ min_per_sqr.0 }} €/m²</div>
                         <div class="cardName">Lowest price/sqrm</div>
                     </div>
                     <div class="iconBx">
@@ -273,76 +263,14 @@
                 </div>
 
             </div>
-        <!-- </div>
-    </div> -->
+        </div>
+    </div>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <!-- <script src="{% static 'js/my_chart copy.js' %}"></script>    -->
 
     <script>
-        //Counter
-        let valueDisplays = document.querySelectorAll(".numbers");
-        let interval = 4000;
-        valueDisplays.forEach((valueDisplay) => {
-        let endValue = parseInt(valueDisplay.getAttribute("data-val"));
-        let startValue = 0;
-        if (endValue > 1000) {
-            startValue = endValue - 400;
-        } else {
-            startValue = 0;
-        };
-        let duration = Math.floor(interval / endValue);
-        // let duration = 1;
-        let counter = setInterval(function () {
-            startValue += 1;
-            valueDisplay.textContent = startValue;
-            if (startValue == endValue) {
-            clearInterval(counter);
-            }
-        }, 1);
-        });
-
-                //Naslje Chart
-
-        let values_naselje_ = {{values_naselje}}
-
-        let colours_naselje = [];
-
-        values_naselje_.forEach((value) => {
-            colours_naselje.push(randomColorGenerator());
-        });
-
-
-        const ctx_naslje = document.getElementById('myChartNaselje').getContext('2d');
-                        const myChartNaselje = new Chart(ctx_naslje, {
-                            type: 'bar',
-                            data: {
-                                labels: [{%for label in labels_naselje %}'{{label}}',{%endfor%}],
-                                datasets: [{
-                                    label: 'price/sqrm',
-                                    data: [{%for value in values_naselje %}{{value}},{%endfor%}],
-                                    backgroundColor: colours_naselje, 
-                                    borderColor: colours_naselje,
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
-        
-    </script>
-{% endblock %}
-<script>
-
-
-
-
         // MenuToggle
         let toggle = document.querySelector('.toggle');
         let navigation = document.querySelector('.navigation');
@@ -363,6 +291,6 @@
         }
         list.forEach((item) =>
         item.addEventListener('mouseover', activeLink));
-
-</script>
+    </script>
+</body>
 </html>
