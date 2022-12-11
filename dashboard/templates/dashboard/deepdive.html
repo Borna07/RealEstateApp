@@ -29,6 +29,7 @@
         <div class="middle">
 
             <div class="sale">
+                <h1>Sales data</h1>
                 <div class="cardBox">
                     <div class="card">
                         <div>
@@ -119,15 +120,19 @@
     
                     </div>
     
-                    <div class="chartAveragePerYear">
+                    <div class="chartStatDistribution">
                         <div class="chartHeader">
                             <h2>Average sale price per city neighboorhood</h2>
                         </div>
-                        <canvas id="myChartNaselje" width="400" height="150"></canvas>  
-    
-    
+                        <div>
+                            {% autoescape off %}
+                            {{ sale_plt_year }}
+                            {% endautoescape %}
+                        </div>
                     </div>
+
     
+
                     <div class="chartStatDistribution">
                         <div class="chartHeader">
                             <h2>Real estate size histogram</h2>
@@ -138,26 +143,13 @@
                             {% endautoescape %}
                         </div>
                     </div>
-                    
-    
-    
-                    <!-- <div class="chartAveragePerYear">
-                        <div class="chartHeader">
-                            <h2>Average price per year build</h2>
-                        </div>
-                        <div>
-                            {% autoescape off %}
-                            {{ year_build }}
-                            {% endautoescape %}
-                        </div>
-                    </div> -->
-    
+          
     
     
     
                 </div>
 
-                <div class="cardBox">
+                <div class="cardBox" id="outliers">
                     <div class="card">
                         <div>
                             <div class="numbers" data-val="{{ sale_outliers.0.0 }}">000</div>
@@ -203,7 +195,6 @@
                         </div>
                     </div>
                 </div>
-
                 
                 <!-- Dataset List-->
                 <div class="details">
@@ -223,7 +214,7 @@
                                 </tr>
                             </thead>
 
-                            {% for row in lines  %}
+                            {% for row in table_sale  %}
                             <tbody>
                                 <tr>
                                     <td>{{ row.0 }}</td>
@@ -242,6 +233,7 @@
             </div>
 
             <div class="rent">
+                <h1>Rent data</h1>
 
                 <div class="cardBox">
                     <div class="card">
@@ -290,23 +282,6 @@
                         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
                         <script type="text/javascript">
-                            // const randomNum = () => Math.floor(Math.random() * (235 - 52 + 1) + 52);
-                            // const randomRGB = () => `rgb(${randomNum()}, ${randomNum()}, ${randomNum()})`;
-
-
-                            // let test_values_rent = {{data_values_rent}}
-
-                            // var randomColorGenerator = function () { 
-                            //   return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
-                            // };
-
-                            // let colours = [];
-
-                            // test_values.forEach((data_values_rent) => {
-                            //     colours.push(randomColorGenerator());
-                            // });
-
-
                             const ctx_rent = document.getElementById('AveragePerYearRent').getContext('2d');
                             const myChart_Rent = new Chart(ctx_rent, {
                                 type: 'bar',
@@ -332,64 +307,102 @@
 
                     </div>
 
-                    <div class="chartAveragePerYear">
+                    <div class="chartStatDistribution">
                         <div class="chartHeader">
-                            <h2>Average rent price per city neighboorhood</h2>
+                            <h2>Average sale price per city neighboorhood</h2>
                         </div>
-                        <canvas id="myChartNaseljeRent" width="400" height="150"></canvas>  
-    
-                        </script>
-    
+                        <div>
+                            {% autoescape off %}
+                            {{ rent_plt_year }}
+                            {% endautoescape %}
+                        </div>
                     </div>
+
+
 
                 </div>
 
+                <div class="outliers">
 
-                <div class="cardBox">
-                    <div class="card">
-                        <div>
-                            <div class="numbers" data-val="{{ rent_outliers.0.0 }}">000</div>
-                            <div class="cardName">Highest price</div>
+                    <div class="cardBox">
+                        <div class="card">
+                            <div>
+                                <div class="numbers" data-val="{{ rent_outliers.0.0 }}">000</div>
+                                <div class="cardName">Highest price</div>
+                            </div>
+                            <div class="iconBx">
+                                <a href="{{ rent_outliers.0.1  }}">
+                                <ion-icon name="link-outline"></ion-icon>
+                                </a>
+                            </div>
                         </div>
-                        <div class="iconBx">
-                            <a href="{{ rent_outliers.0.1  }}">
-                            <ion-icon name="link-outline"></ion-icon>
-                            </a>
+                        <div class="card">
+                            <div>
+                                <div class="numbers" data-val="{{ rent_outliers.1.0 }}">0000 </div>
+                                <div class="cardName">Highest price/sqrm</div>
+                            </div>
+                            <div class="iconBx">
+                                <a href="{{ rent_outliers.1.1 }}">
+                                <ion-icon name="link-outline"></ion-icon>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div>
+                                <div class="numbers" data-val="{{ rent_outliers.2.0 }}">0000</div>
+                                <div class="cardName">Lowest price</div>
+                            </div>
+                            <div class="iconBx">
+                                <a href="{{ rent_outliers.2.1 }}">
+                                <ion-icon name="link-outline"></ion-icon>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div>
+                                <div class="numbers" data-val="{{ rent_outliers.3.0  }}">0000</div>
+                                <div class="cardName">Lowest price/sqrm</div>
+                            </div>
+                            <div class="iconBx">
+                                <a href="{{ rent_outliers.3.1  }}">
+                                <ion-icon name="link-outline"></ion-icon>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div>
-                            <div class="numbers" data-val="{{ rent_outliers.1.0 }}">0000 </div>
-                            <div class="cardName">Highest price/sqrm</div>
+                </div>
+
+                <div class="details">
+                    <div class="recentOrder">
+                        <div class="cardHeader">
+                            <h2>All listings</h2>
+                            <a href="{{file_download_raw.url}}" class="btn">Download dataset</a>
                         </div>
-                        <div class="iconBx">
-                            <a href="{{ rent_outliers.1.1 }}">
-                            <ion-icon name="link-outline"></ion-icon>
-                            </a>
-                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Year build</th>
+                                    <th>Price [€]</th>
+                                    <th>Square meteres [m²]</th>
+                                    <th>Price per sqrm [€/m²]</th>
+                                    <th>Link</th>
+                                </tr>
+                            </thead>
+
+                            {% for row in table_rent  %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ row.0 }}</td>
+                                    <td>{{ row.1|intcomma }}</td>
+                                    <td>{{ row.2 }}</td>
+                                    <td>{{ row.3 }}</td>
+                                    <td><a href="{{ row.4 }}">{{ row.4|slice:":80" }}</a></td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
                     </div>
-                    <div class="card">
-                        <div>
-                            <div class="numbers" data-val="{{ rent_outliers.2.0 }}">0000</div>
-                            <div class="cardName">Lowest price</div>
-                        </div>
-                        <div class="iconBx">
-                            <a href="{{ rent_outliers.2.1 }}">
-                            <ion-icon name="link-outline"></ion-icon>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div>
-                            <div class="numbers" data-val="{{ rent_outliers.3.0  }}">0000</div>
-                            <div class="cardName">Lowest price/sqrm</div>
-                        </div>
-                        <div class="iconBx">
-                            <a href="{{ rent_outliers.3.1  }}">
-                            <ion-icon name="link-outline"></ion-icon>
-                            </a>
-                        </div>
-                    </div>
+
                 </div>
 
             </div>
@@ -458,6 +471,7 @@
                                 }]
                             },
                             options: {
+                                indexAxis: 'y',
                                 scales: {
                                     y: {
                                         beginAtZero: true

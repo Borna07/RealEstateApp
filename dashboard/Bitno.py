@@ -102,7 +102,8 @@ def size_hist(df):
 
 def avg_price_plot(df):
     
-    fig = px.line(df, x="calendar_week", y="avg_price_sqrm", markers=True, color = 'city')
+    fig = px.line(df, x="calendar_week", y="avg_price_sqrm", markers=True, color = 'city',)
+                    # width=800, height=400)
     plot_div = plot(fig, output_type='div')
     title= "Average price per square meter"
     output = [plot_div, title]
@@ -342,3 +343,33 @@ def data_median_for_chart(dataframe: pd.DataFrame, group_colum: str, values_colu
     data_values = data[values_column].values.tolist()
 
     return [labels, data_values]
+
+def data_median_for_chart_plt(dataframe: pd.DataFrame, group_colum: str, values_column: str):
+    
+    data = dataframe.groupby(group_colum).median()
+    fig_year_build = px.bar(data, x = data.index, y = data[values_column], color = data[values_column],)
+    # title = "Average price per sqrm of year build")
+    fig_year_build.update_layout(
+    xaxis_title="Year build",)
+
+    plot_div = plot(fig_year_build, output_type='div')
+
+    return plot_div
+
+def price_plot(dataframe: pd.DataFrame, x_labels: str, y_values: str, color_values : str):
+    
+    fig = px.line(dataframe, x=x_labels, y=y_values, markers=True, color = color_values,)
+                    # width=800, height=400)
+    plot_div = plot(fig, output_type='div')
+
+    
+    return plot_div
+
+def table_from_df(dataframe: pd.DataFrame, columns_list: list, sort_by: str):
+    lines_df = dataframe[columns_list]
+    #Sort table according to price
+    lines_df = lines_df.sort_values(by=[sort_by])
+    table_list = lines_df.values.tolist()
+
+    return table_list
+

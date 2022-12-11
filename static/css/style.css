@@ -17,6 +17,11 @@
 
 }
 
+h1 {
+    text-align:center;
+}
+
+
 body
 {
     min-height: 100vh;
@@ -271,6 +276,18 @@ body
     grid-gap: 30px;
 }
 
+.cardBoxOutliers
+{
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap: 30px;
+    color: rgb(196, 116, 116);
+
+}
+
 
 .cardBox
 {
@@ -328,6 +345,11 @@ body
     color: var(--white);
 }
 
+/* #outliers
+{
+    background-color: rgb(196, 116, 116);
+} */
+
 .details
 {
     position: relative;
@@ -337,6 +359,7 @@ body
     grid-template-columns: 1fr;
     grid-gap: 30px;
     margin-top: 10px;
+
 
 }
 
@@ -378,6 +401,7 @@ body
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    
 }
 .details table thead td
 {

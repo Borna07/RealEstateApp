@@ -14,22 +14,44 @@
         </div> -->
         <div class="chartStatDistribution">
             <div class="chartHeader">
-                <h2>{{ plot.1 }} SALE DATA</h2>
+                <h2> SALE DATA</h2>
             </div>
             <div>
                 {% autoescape off %}
-                {{ plot.0 }}
+                {{ sale_mean_plot }}
                 {% endautoescape %}
             </div>
         </div>
 
         <div class="chartStatDistribution">
             <div class="chartHeader">
-                <h2>{{ plot_rent.1 }} RENT DATA</h2>
+                <h2> RENT DATA</h2>
             </div>
             <div>
                 {% autoescape off %}
-                {{ plot_rent.0 }}
+                {{ rent_mean_plot }}
+                {% endautoescape %}
+            </div>
+        </div>
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <h2> SALE DATA</h2>
+            </div>
+            <div>
+                {% autoescape off %}
+                {{ plot }}
+                {% endautoescape %}
+            </div>
+        </div>
+
+        <div class="chartStatDistribution">
+            <div class="chartHeader">
+                <h2> RENT DATA</h2>
+            </div>
+            <div>
+                {% autoescape off %}
+                {{ plot_rent }}
                 {% endautoescape %}
             </div>
         </div>
