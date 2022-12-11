@@ -173,10 +173,7 @@ def deepDive(request, city_name=None, week = None):
             'sale_per_year_build':sale_per_year_build, 'sale_per_neigbhorhood':sale_per_neigbhorhood,
             'general_data':general_data, 'lines':lines, "size_histogram":size_histogram, 
             'rent_per_year_build':rent_per_year_build,'rent_per_neigbhorhood':rent_per_neigbhorhood,
-            'sale_outliers':sale_outliers, 'rent_outliers':rent_outliers,
-            "max": [dataset_sale.highest_price, dataset_sale.highest_price_link],
-            "max_per_sqr" : [dataset_sale.highest_price_sqrm, dataset_sale.highest_price_sqrm_link], "min" : [dataset_sale.lowest_price, dataset_sale.lowest_price_link], 
-            "min_per_sqr" : [dataset_sale.lowest_price_sqrm, dataset_sale.lowest_price_sqrm_link]}
+            'sale_outliers':sale_outliers, 'rent_outliers':rent_outliers,}
 
     return render(request, 'dashboard/deepdive.html',context)
 
