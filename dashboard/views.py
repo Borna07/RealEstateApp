@@ -31,7 +31,12 @@ def index(request):
     sale_mean_plot = price_plot(dataframe= df_sale, x_labels="calendar_week", y_values="avg_price", color_values="city")
     rent_mean_plot = price_plot(dataframe= df_rent, x_labels="calendar_week", y_values="avg_price", color_values="city")
 
-    context = {'plot':plot, 'plot_rent':plot_rent,'sale_mean_plot':sale_mean_plot,'rent_mean_plot':rent_mean_plot}
+
+    sale_per_sqr_plot = price_plot(dataframe= df_sale, x_labels="calendar_week", y_values="avg_price_sqrm", color_values="city")
+    rent_per_sqr_plot = price_plot(dataframe= df_rent, x_labels="calendar_week", y_values="avg_price_sqrm", color_values="city")
+
+    context = {'plot':plot, 'plot_rent':plot_rent,'sale_mean_plot':sale_mean_plot,'rent_mean_plot':rent_mean_plot,
+             'sale_per_sqr_plot':sale_per_sqr_plot, 'rent_per_sqr_plot':rent_per_sqr_plot}
 
 
     return render(request, 'dashboard/index.html',context)

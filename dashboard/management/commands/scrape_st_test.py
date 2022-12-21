@@ -3,6 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from numpy import full
 from dashboard.Bitno import *
+from dashboard.City_info import Info
 from datetime import datetime
 from RealEstateApp.settings import MEDIA_ROOT
 pd.options.mode.chained_assignment = None 
@@ -16,14 +17,13 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
 
-
         # get the start time
         st = time.time()
 
-        url = "https://www.index.hr/oglasi/najam-stanova/gid/3279?pojam=&sortby=1&elementsNum=100&cijenaod=0&cijenado=576000&tipoglasa=1&pojamZup=1154&grad=1294&naselje=&attr_Int_988=&attr_Int_887=&attr_bit_stan=&attr_bit_brojEtaza=&attr_gr_93_1=&attr_gr_93_2=&attr_Int_978=&attr_Int_1334=&attr_bit_eneregetskiCertifikat=&vezani_na=988-887_562-563_978-1334"
-        city_name = "Rovinj"
-        ime = "_rovinj"
+        city_name = "Split"
 
+        url = Info[city_name][0]
+        ime = Info[city_name][1]
 
 
         #find all pages
@@ -44,14 +44,14 @@ class Command(BaseCommand):
         #check raw entries, save raw dataframe
         dj_raw_entries = len(df.index)
         
-        full_ime_raw = str(current_date) + "_RAW" + ime + "_RENT" + ".xlsx"
+        full_ime_raw = str(current_date) + "_RAW" + ime + ".xlsx"
         raw_path =  MEDIA_ROOT + "/" + full_ime_raw
         dj_df_raw  = df.to_excel(raw_path)
 
         #clean dataframe
-        df = dataframe_cleaner_rent(df)
+        df = dataframe_cleaner(df)
 
-        full_ime =  str(current_date) + ime +"_RENT" +  ".xlsx"
+        full_ime =  str(current_date) + ime + ".xlsx"
         clean_path = MEDIA_ROOT + "/" + full_ime
         dj_df = df.to_excel(clean_path)
         dj_clean_entries = len(df.index)
@@ -76,10 +76,13 @@ class Command(BaseCommand):
 
         med_sale_price = df["Cijena"].mean()
 
-
         time_now = timezone.now()
 
-        Rents.objects.create(
+
+
+
+
+        Document.objects.create(
             document = full_ime, document_raw = full_ime_raw, uploaded_at = time_now,
             calendar_week = time_now.isocalendar()[1] , raw_entries = dj_raw_entries, clean_entries = dj_clean_entries,
             city = city_name, avg_price_sqrm = dj_avg_price_sqrm, avg_size = dj_avg_size,
@@ -96,8 +99,5 @@ class Command(BaseCommand):
         elapsed_time = et - st
         elapsed_time_min = elapsed_time/60
         print('Execution time:', elapsed_time_min, 'minutes')
-        print('%s added' % (city_name))
-        self.stdout.write( 'Rents job complete' )
-
-
+        self.stdout.write( 'job complete' )
 

@@ -75,6 +75,7 @@ class Command(BaseCommand):
 
         min_per_sqr_df = df[df['€/m²'] == df['€/m²'].min()]
         min_per_sqr = [min_per_sqr_df['€/m²'].values[0], min_per_sqr_df['Link'].values[0]]
+        med_sale_price = df["Cijena"].mean()
 
         time_now = timezone.now()
 
@@ -85,7 +86,7 @@ class Command(BaseCommand):
             avg_year = dj_avg_year, highest_price = max[0], highest_price_link = max[1],
             highest_price_sqrm = max_per_sqr[0], highest_price_sqrm_link = max_per_sqr[1],
             lowest_price = min[0], lowest_price_link = min[1], lowest_price_sqrm = min_per_sqr[0],
-            lowest_price_sqrm_link = min_per_sqr[1]
+            lowest_price_sqrm_link = min_per_sqr[1], avg_price = med_sale_price
         )
 
         # get the end time

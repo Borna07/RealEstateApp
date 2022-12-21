@@ -100,15 +100,7 @@ def size_hist(df):
     return plot_div
 
 
-def avg_price_plot(df):
-    
-    fig = px.line(df, x="calendar_week", y="avg_price_sqrm", markers=True, color = 'city',)
-                    # width=800, height=400)
-    plot_div = plot(fig, output_type='div')
-    title= "Average price per square meter"
-    output = [plot_div, title]
-    
-    return output
+
 
 
 def all_cities_plot(df):
@@ -360,6 +352,8 @@ def price_plot(dataframe: pd.DataFrame, x_labels: str, y_values: str, color_valu
     
     fig = px.line(dataframe, x=x_labels, y=y_values, markers=True, color = color_values,)
                     # width=800, height=400)
+    fig.update_xaxes(categoryorder='category ascending')
+
     plot_div = plot(fig, output_type='div')
 
     
@@ -373,3 +367,13 @@ def table_from_df(dataframe: pd.DataFrame, columns_list: list, sort_by: str):
 
     return table_list
 
+
+def avg_price_plot(df):
+    
+    fig = px.line(df, x="calendar_week", y="avg_price_sqrm", markers=True, color = 'city',)
+                    # width=800, height=400)
+    plot_div = plot(fig, output_type='div')
+    title= "Average price per square meter"
+    output = [plot_div, title]
+    
+    return output
