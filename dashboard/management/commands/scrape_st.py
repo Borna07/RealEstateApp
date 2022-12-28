@@ -81,8 +81,6 @@ class Command(BaseCommand):
             print(min_per_sqr_df['€/m²'])
             min_per_sqr = [100, "Error"]
 
-        med_sale_price = df["Cijena"].mean()
-
 
         med_sale_price = df["Cijena"].mean()
 
