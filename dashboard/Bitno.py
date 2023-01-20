@@ -368,9 +368,9 @@ def table_from_df(dataframe: pd.DataFrame, columns_list: list, sort_by: str):
     return table_list
 
 
-def avg_price_plot(df):
+def avg_price_plot(df, y_value):
     
-    fig = px.line(df, x="calendar_week", y="avg_price_sqrm", markers=True, color = 'city',)
+    fig = px.line(df, x="calendar_week", y=y_value, markers=True, color = 'city',)
                     # width=800, height=400)
     plot_div = plot(fig, output_type='div')
     title= "Average price per square meter"

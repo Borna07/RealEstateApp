@@ -12,6 +12,7 @@ class Document(models.Model):
     document_raw = models.FileField(upload_to=only_filename, default="Some String")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     calendar_week = models.CharField(max_length=200, null=True)
+    year_calendar_week = models.CharField(max_length=200, null=True)
     raw_entries = models.IntegerField(null=True)
     clean_entries = models.IntegerField(null=True)
     city = models.CharField(max_length=200, null=True)
@@ -38,6 +39,7 @@ class Rents(models.Model):
     document_raw = models.FileField(upload_to=only_filename, default="Some String")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     calendar_week = models.CharField(max_length=200, null=True)
+    year_calendar_week = models.CharField(max_length=200, null=True)
     raw_entries = models.IntegerField(null=True)
     clean_entries = models.IntegerField(null=True)
     city = models.CharField(max_length=200, null=True)
@@ -54,6 +56,13 @@ class Rents(models.Model):
     lowest_price_link =models.URLField(max_length = 200, default="Some String")
     lowest_price_sqrm = models.IntegerField(null=True, default=0)
     lowest_price_sqrm_link = models.URLField(max_length = 200, default="Some String")
+
+    highest_price_sqrm_decimal = models.FloatField(null=True, default=0.00)
+    lowest_price_sqrm_decimal = models.FloatField(null=True, default=0.00)
+    avg_price_sqrm_decimal = models.FloatField(null=True, default=0.00)
+
+
+
 
     def __str__(self):
         return self.document.name

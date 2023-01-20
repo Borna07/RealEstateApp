@@ -16,24 +16,27 @@ def index(request):
     fields = ["city","calendar_week", "raw_entries", "clean_entries", 
     "avg_price_sqrm", "avg_size", "avg_year","avg_price"]
 
+    fields_rent = ["city","calendar_week", "raw_entries", "clean_entries", 
+    "avg_price_sqrm_decimal", "avg_size", "avg_year","avg_price"]
+
     
     datasets_values = Document.objects.all().values_list("city","calendar_week", "raw_entries", "clean_entries", 
                                 "avg_price_sqrm", "avg_size", "avg_year", "avg_price")
     df_sale = pd.DataFrame.from_records(datasets_values, columns = fields)
 
     datasets_values_rent = Rents.objects.all().values_list("city","calendar_week", "raw_entries", "clean_entries", 
-                                "avg_price_sqrm", "avg_size", "avg_year", "avg_price")
-    df_rent = pd.DataFrame.from_records(datasets_values_rent, columns = fields)
+                                "avg_price_sqrm_decimal", "avg_size", "avg_year", "avg_price")
+    df_rent = pd.DataFrame.from_records(datasets_values_rent, columns = fields_rent)
 
-    plot = avg_price_plot(df_sale)
-    plot_rent = avg_price_plot(df_rent)
+    plot = avg_price_plot(df_sale, "avg_price_sqrm")
+    plot_rent = avg_price_plot(df_rent, "avg_price_sqrm_decimal")
 
     sale_mean_plot = price_plot(dataframe= df_sale, x_labels="calendar_week", y_values="avg_price", color_values="city")
     rent_mean_plot = price_plot(dataframe= df_rent, x_labels="calendar_week", y_values="avg_price", color_values="city")
 
 
     sale_per_sqr_plot = price_plot(dataframe= df_sale, x_labels="calendar_week", y_values="avg_price_sqrm", color_values="city")
-    rent_per_sqr_plot = price_plot(dataframe= df_rent, x_labels="calendar_week", y_values="avg_price_sqrm", color_values="city")
+    rent_per_sqr_plot = price_plot(dataframe= df_rent, x_labels="calendar_week", y_values="avg_price_sqrm_decimal", color_values="city")
 
     context = {'plot':plot, 'plot_rent':plot_rent,'sale_mean_plot':sale_mean_plot,'rent_mean_plot':rent_mean_plot,
              'sale_per_sqr_plot':sale_per_sqr_plot, 'rent_per_sqr_plot':rent_per_sqr_plot}
@@ -64,7 +67,7 @@ def get_city_data(request, city_name=None):
 
     #Get rent prices
     datases_rent = Rents.objects.filter(city=city_name)
-    datases_rent_values = datases_rent.values_list("city","calendar_week", "raw_entries", "clean_entries", "avg_price_sqrm", "avg_size", "avg_year","avg_price")
+    datases_rent_values = datases_rent.values_list("city","calendar_week", "raw_entries", "clean_entries", "avg_price_sqrm_decimal", "avg_size", "avg_year","avg_price")
 
     x_value_rents = [value[1] for value in datases_rent_values]
     raw_entries_rents = [value[2] for value in datases_rent_values]
@@ -93,7 +96,7 @@ def deepDive(request, city_name=None, week = None):
     dataset_rent = Rents.objects.get(city = city_name, calendar_week = week)
 
     general_data = [dataset_sale.clean_entries, dataset_sale.avg_price_sqrm, dataset_sale.avg_size, round(dataset_sale.avg_price, 2)]
-    general_data_rent = [dataset_rent.clean_entries, dataset_rent.avg_price_sqrm, dataset_rent.avg_size,round(dataset_rent.avg_price, 2)]
+    general_data_rent = [dataset_rent.clean_entries, dataset_rent.avg_price_sqrm_decimal, dataset_rent.avg_size,round(dataset_rent.avg_price, 2)]
 
 
     REPORT_DIR = Path(MEDIA_ROOT) / str(dataset_sale)
@@ -108,7 +111,7 @@ def deepDive(request, city_name=None, week = None):
 
     #ROI per m²
     avg_price_sale = general_data[1]
-    avg_price_rent = dataset_rent.avg_price_sqrm
+    avg_price_rent = dataset_rent.avg_price_sqrm_decimal
     time_till_even = avg_price_sale/(avg_price_rent*12)
 
 
