@@ -7,6 +7,10 @@ from pathlib import Path
 
 from RealEstateApp.settings import MEDIA_ROOT
 
+from django.db.models import Max
+from django.db.models.functions import TruncMonth
+
+
 
 
 
@@ -19,7 +23,15 @@ def index(request):
     fields_rent = ["city","calendar_week", "raw_entries", "clean_entries", 
     "avg_price_sqrm_decimal", "avg_size", "avg_year","avg_price"]
 
-    
+    fields_test = ["city","year_calendar_week", "raw_entries", "clean_entries", 
+    "avg_price_sqrm", "avg_size", "avg_year","avg_price"]
+
+    test = Document.objects.annotate(month=TruncMonth('uploaded_at')).values('city', 'month').annotate(latest_object=Max('uploaded_at')).values('city','month','latest_object')
+    test_values = test.values_list("city","year_calendar_week", "raw_entries", "clean_entries", 
+                                "avg_price_sqrm", "avg_size", "avg_year", "avg_price")
+    df_test = pd.DataFrame.from_records(test_values, columns = fields_test)
+    # df_test.to_excel("MONTHLY.xlsx")
+    # print(df_test)
     datasets_values = Document.objects.all().values_list("city","calendar_week", "raw_entries", "clean_entries", 
                                 "avg_price_sqrm", "avg_size", "avg_year", "avg_price")
     df_sale = pd.DataFrame.from_records(datasets_values, columns = fields)
@@ -29,9 +41,12 @@ def index(request):
     df_rent = pd.DataFrame.from_records(datasets_values_rent, columns = fields_rent)
 
     plot = avg_price_plot(df_sale, "avg_price_sqrm")
+    # plot = price_plot(df_test, x_labels="year_calendar_week",y_values="avg_price", color_values="city")
+
     plot_rent = avg_price_plot(df_rent, "avg_price_sqrm_decimal")
 
-    sale_mean_plot = price_plot(dataframe= df_sale, x_labels="calendar_week", y_values="avg_price", color_values="city")
+    # sale_mean_plot = price_plot(dataframe= df_sale, x_labels="calendar_week", y_values="avg_price", color_values="city")
+    sale_mean_plot = price_plot(dataframe= df_test, x_labels="year_calendar_week", y_values="avg_price", color_values="city")
     rent_mean_plot = price_plot(dataframe= df_rent, x_labels="calendar_week", y_values="avg_price", color_values="city")
 
 
