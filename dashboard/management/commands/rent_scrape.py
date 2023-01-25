@@ -9,6 +9,9 @@ from RealEstateApp.settings import MEDIA_ROOT
 pd.options.mode.chained_assignment = None 
 import time
 
+import subprocess
+
+
 
 
 class Command(BaseCommand):
@@ -89,15 +92,14 @@ class Command(BaseCommand):
                 lowest_price_sqrm_link = min_per_sqr[1], avg_price = med_sale_price
             )
 
-            # # get the end time
-            # et = time.time()
+        # Add changes to the staging area
+        subprocess.run(["git", "add", "."])
 
-            # # get the execution time
-            # elapsed_time = et - st
-            # elapsed_time_min = elapsed_time/60
-            # print('Execution time:', elapsed_time_min, 'minutes')
-            # print('%s added' % (city_name))
-            # self.stdout.write( 'Rents job complete' )
+        # Create a commit with a message
+        subprocess.run(["git", "commit", "-m", "Update database"])
+
+        # Push the commit to the remote repository
+        subprocess.run(["git", "push"])
 
 
 
