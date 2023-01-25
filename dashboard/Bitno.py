@@ -377,3 +377,5 @@ def avg_price_plot(df, y_value):
     output = [plot_div, title]
     
     return output
+
+

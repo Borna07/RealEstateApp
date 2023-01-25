@@ -13,51 +13,41 @@ from django.db.models.functions import TruncMonth
 
 
 
-
-
-
 def index(request):
-    fields = ["city","calendar_week", "raw_entries", "clean_entries", 
-    "avg_price_sqrm", "avg_size", "avg_year","avg_price"]
 
-    fields_rent = ["city","calendar_week", "raw_entries", "clean_entries", 
+    fields_sale = ["city","year_calendar_week", "raw_entries", "clean_entries", 
+    "avg_price_sqrm", "avg_size", "avg_year","avg_price"]
+    datasets_values = Document.objects.all().values_list("city","year_calendar_week", "raw_entries", "clean_entries", 
+                                "avg_price_sqrm", "avg_size", "avg_year", "avg_price")
+
+    df_sale = pd.DataFrame.from_records(datasets_values, columns = fields_sale)
+    df_sale['year_month'] = df_sale['year_calendar_week'].apply(lambda x: pd.to_datetime(x + '-1', format='%Y - %W-%w').strftime('%Y-%m'))
+
+
+    df_sale_grouped = df_sale.groupby(['year_month','city']).mean().reset_index()
+    sale_mean_plot = price_plot(dataframe= df_sale_grouped, x_labels="year_month", y_values="avg_price", color_values="city")
+    sale_per_sqr_plot = price_plot(dataframe= df_sale, x_labels="year_month", y_values="avg_price_sqrm", color_values="city")
+
+
+    fields_rent = ["city","year_calendar_week", "raw_entries", "clean_entries", 
     "avg_price_sqrm_decimal", "avg_size", "avg_year","avg_price"]
-
-    fields_test = ["city","year_calendar_week", "raw_entries", "clean_entries", 
-    "avg_price_sqrm", "avg_size", "avg_year","avg_price"]
-
-    test = Document.objects.annotate(month=TruncMonth('uploaded_at')).values('city', 'month').annotate(latest_object=Max('uploaded_at')).values('city','month','latest_object')
-    test_values = test.values_list("city","year_calendar_week", "raw_entries", "clean_entries", 
-                                "avg_price_sqrm", "avg_size", "avg_year", "avg_price")
-    df_test = pd.DataFrame.from_records(test_values, columns = fields_test)
-    # df_test.to_excel("MONTHLY.xlsx")
-    # print(df_test)
-    datasets_values = Document.objects.all().values_list("city","calendar_week", "raw_entries", "clean_entries", 
-                                "avg_price_sqrm", "avg_size", "avg_year", "avg_price")
-    df_sale = pd.DataFrame.from_records(datasets_values, columns = fields)
-
-    datasets_values_rent = Rents.objects.all().values_list("city","calendar_week", "raw_entries", "clean_entries", 
+    datasets_values_rent = Rents.objects.all().values_list("city","year_calendar_week", "raw_entries", "clean_entries", 
                                 "avg_price_sqrm_decimal", "avg_size", "avg_year", "avg_price")
+    
     df_rent = pd.DataFrame.from_records(datasets_values_rent, columns = fields_rent)
-
-    plot = avg_price_plot(df_sale, "avg_price_sqrm")
-    # plot = price_plot(df_test, x_labels="year_calendar_week",y_values="avg_price", color_values="city")
-
-    plot_rent = avg_price_plot(df_rent, "avg_price_sqrm_decimal")
-
-    # sale_mean_plot = price_plot(dataframe= df_sale, x_labels="calendar_week", y_values="avg_price", color_values="city")
-    sale_mean_plot = price_plot(dataframe= df_test, x_labels="year_calendar_week", y_values="avg_price", color_values="city")
-    rent_mean_plot = price_plot(dataframe= df_rent, x_labels="calendar_week", y_values="avg_price", color_values="city")
+    df_rent['year_month'] = df_rent['year_calendar_week'].apply(lambda x: pd.to_datetime(x + '-1', format='%Y - %W-%w').strftime('%Y-%m'))
+    df_rent_grouped = df_rent.groupby(['year_month','city']).mean().reset_index()
 
 
-    sale_per_sqr_plot = price_plot(dataframe= df_sale, x_labels="calendar_week", y_values="avg_price_sqrm", color_values="city")
-    rent_per_sqr_plot = price_plot(dataframe= df_rent, x_labels="calendar_week", y_values="avg_price_sqrm_decimal", color_values="city")
+    rent_mean_plot = price_plot(dataframe= df_rent_grouped, x_labels="year_month", y_values="avg_price", color_values="city")
+    rent_per_sqr_plot = price_plot(dataframe= df_rent_grouped, x_labels="year_month", y_values="avg_price_sqrm_decimal", color_values="city")
 
-    context = {'plot':plot, 'plot_rent':plot_rent,'sale_mean_plot':sale_mean_plot,'rent_mean_plot':rent_mean_plot,
+    context = {'sale_mean_plot':sale_mean_plot,'rent_mean_plot':rent_mean_plot,
              'sale_per_sqr_plot':sale_per_sqr_plot, 'rent_per_sqr_plot':rent_per_sqr_plot}
 
 
     return render(request, 'dashboard/index.html',context)
+
 
 
 def get_city_data(request, city_name=None):
