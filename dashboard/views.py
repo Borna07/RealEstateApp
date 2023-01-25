@@ -25,8 +25,8 @@ def index(request):
 
 
     df_sale_grouped = df_sale.groupby(['year_month','city']).mean().reset_index()
-    sale_mean_plot = price_plot(dataframe= df_sale_grouped, x_labels="year_month", y_values="avg_price", color_values="city")
-    sale_per_sqr_plot = price_plot(dataframe= df_sale, x_labels="year_month", y_values="avg_price_sqrm", color_values="city")
+    sale_mean_plot = price_plot(dataframe= df_sale_grouped, x_labels="year_month", y_values="avg_price", color_values="city", xaxis = "Month - Year", yaxis= "Price [€]")
+    sale_per_sqr_plot = price_plot(dataframe= df_sale_grouped, x_labels="year_month", y_values="avg_price_sqrm", color_values="city", xaxis = "Month - Year", yaxis= "Price per sqr [€/m²]")
 
 
     fields_rent = ["city","year_calendar_week", "raw_entries", "clean_entries", 
@@ -39,8 +39,8 @@ def index(request):
     df_rent_grouped = df_rent.groupby(['year_month','city']).mean().reset_index()
 
 
-    rent_mean_plot = price_plot(dataframe= df_rent_grouped, x_labels="year_month", y_values="avg_price", color_values="city")
-    rent_per_sqr_plot = price_plot(dataframe= df_rent_grouped, x_labels="year_month", y_values="avg_price_sqrm_decimal", color_values="city")
+    rent_mean_plot = price_plot(dataframe= df_rent_grouped, x_labels="year_month", y_values="avg_price", color_values="city", xaxis = "Month - Year", yaxis= "Price [€]")
+    rent_per_sqr_plot = price_plot(dataframe= df_rent_grouped, x_labels="year_month", y_values="avg_price_sqrm_decimal", color_values="city", xaxis = "Month - Year", yaxis= "Price per sqr [€/m²]")
 
     context = {'sale_mean_plot':sale_mean_plot,'rent_mean_plot':rent_mean_plot,
              'sale_per_sqr_plot':sale_per_sqr_plot, 'rent_per_sqr_plot':rent_per_sqr_plot}

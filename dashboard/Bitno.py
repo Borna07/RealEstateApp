@@ -348,15 +348,25 @@ def data_median_for_chart_plt(dataframe: pd.DataFrame, group_colum: str, values_
 
     return plot_div
 
-def price_plot(dataframe: pd.DataFrame, x_labels: str, y_values: str, color_values : str):
+def price_plot(dataframe: pd.DataFrame, x_labels: str, y_values: str, color_values : str , xaxis : str = None, yaxis : str = None):
     
     fig = px.line(dataframe, x=x_labels, y=y_values, markers=True, color = color_values,height=600)
                     # width=800, height=400)
+
+    if not xaxis and not yaxis:
+        xaxis = x_labels
+        yaxis = y_values
+
     fig.update_xaxes(categoryorder='category ascending')
+
+
+
+    fig.update_layout(
+    xaxis_title=xaxis,
+    yaxis_title=yaxis,)
 
     plot_div = plot(fig, output_type='div')
 
-    
     return plot_div
 
 def table_from_df(dataframe: pd.DataFrame, columns_list: list, sort_by: str):
