@@ -350,7 +350,7 @@ def data_median_for_chart_plt(dataframe: pd.DataFrame, group_colum: str, values_
 
 def price_plot(dataframe: pd.DataFrame, x_labels: str, y_values: str, color_values : str):
     
-    fig = px.line(dataframe, x=x_labels, y=y_values, markers=True, color = color_values,)
+    fig = px.line(dataframe, x=x_labels, y=y_values, markers=True, color = color_values,height=600)
                     # width=800, height=400)
     fig.update_xaxes(categoryorder='category ascending')
 
