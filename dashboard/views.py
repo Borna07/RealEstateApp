@@ -49,6 +49,38 @@ def index(request):
     return render(request, 'dashboard/index.html',context)
 
 
+def index(request):
+
+    fields_sale = ["city","year_calendar_month", "raw_entries", "clean_entries", 
+    "avg_price_sqrm", "avg_size", "avg_year","avg_price"]
+    datasets_values = Document.objects.all().values_list("city","year_calendar_month", "raw_entries", "clean_entries", 
+                                "avg_price_sqrm", "avg_size", "avg_year", "avg_price")
+
+    df_sale = pd.DataFrame.from_records(datasets_values, columns = fields_sale)
+
+    df_sale_grouped = df_sale.groupby(['year_calendar_month','city']).mean().reset_index()
+    sale_mean_plot = price_plot(dataframe= df_sale_grouped, x_labels="year_calendar_month", y_values="avg_price", color_values="city", xaxis = "Month - Year", yaxis= "Price [€]")
+    sale_per_sqr_plot = price_plot(dataframe= df_sale_grouped, x_labels="year_calendar_month", y_values="avg_price_sqrm", color_values="city", xaxis = "Month - Year", yaxis= "Price per sqr [€/m²]")
+
+
+    fields_rent = ["city","year_calendar_month", "raw_entries", "clean_entries", 
+    "avg_price_sqrm_decimal", "avg_size", "avg_year","avg_price"]
+    datasets_values_rent = Rents.objects.all().values_list("city","year_calendar_month", "raw_entries", "clean_entries", 
+                                "avg_price_sqrm_decimal", "avg_size", "avg_year", "avg_price")
+    
+    df_rent = pd.DataFrame.from_records(datasets_values_rent, columns = fields_rent)
+    df_rent_grouped = df_rent.groupby(['year_calendar_month','city']).mean().reset_index()
+
+
+    rent_mean_plot = price_plot(dataframe= df_rent_grouped, x_labels="year_calendar_month", y_values="avg_price", color_values="city", xaxis = "Month - Year", yaxis= "Price [€]")
+    rent_per_sqr_plot = price_plot(dataframe= df_rent_grouped, x_labels="year_calendar_month", y_values="avg_price_sqrm_decimal", color_values="city", xaxis = "Month - Year", yaxis= "Price per sqr [€/m²]")
+
+    context = {'sale_mean_plot':sale_mean_plot,'rent_mean_plot':rent_mean_plot,
+             'sale_per_sqr_plot':sale_per_sqr_plot, 'rent_per_sqr_plot':rent_per_sqr_plot}
+
+
+    return render(request, 'dashboard/index.html',context)
+
 
 def get_city_data(request, city_name=None):
 

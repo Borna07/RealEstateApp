@@ -13,6 +13,7 @@ class Document(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     calendar_week = models.CharField(max_length=200, null=True)
     year_calendar_week = models.CharField(max_length=200, null=True)
+    year_calendar_month = models.CharField(max_length=200, null=True)
     raw_entries = models.IntegerField(null=True)
     clean_entries = models.IntegerField(null=True)
     city = models.CharField(max_length=200, null=True)
@@ -30,6 +31,8 @@ class Document(models.Model):
     lowest_price_sqrm = models.IntegerField(null=True, default=0)
     lowest_price_sqrm_link = models.URLField(max_length = 200, default="Some String")
 
+    
+
     def __str__(self):
         return self.document.name
 
@@ -40,6 +43,7 @@ class Rents(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     calendar_week = models.CharField(max_length=200, null=True)
     year_calendar_week = models.CharField(max_length=200, null=True)
+    year_calendar_month = models.CharField(max_length=200, null=True)
     raw_entries = models.IntegerField(null=True)
     clean_entries = models.IntegerField(null=True)
     city = models.CharField(max_length=200, null=True)
