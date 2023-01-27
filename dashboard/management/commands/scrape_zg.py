@@ -84,27 +84,19 @@ class Command(BaseCommand):
 
         time_now = timezone.now()
 
-    #     new_entry = Document(
-    #     document = dj_df, document_raw = dj_df_raw, uploaded_at = time_now,
-    #     calendar_week = time_now.isocalendar().week , raw_entries = dj_raw_entries, clean_entries = dj_clean_entries,
-    #     city = city_name, avg_price_sqrm = dj_avg_price_sqrm, avg_size = dj_avg_size,
-    #     avg_year = dj_avg_year, highest_price = max[0], highest_price_link = max[1],
-    #     highest_price_sqrm = max_per_sqr[0], highest_price_sqrm_link = max_per_sqr[1],
-    #     lowest_price = min[0], lowest_price_link = min[1], lowest_price_sqrm = min_per_sqr[0],
-    #     lowest_price_sqrm_link = min_per_sqr[1]
-    # )
-
-
-
+        current_date = datetime.now().date()
+        currentMonth = datetime.now().strftime('%B')
+        currentYear = datetime.now().year
+        year_month = str(currentYear) + " - " + str(currentMonth)
 
         Document.objects.create(
             document = full_ime, document_raw = full_ime_raw, uploaded_at = time_now,
-            calendar_week = time_now.isocalendar()[1] , raw_entries = dj_raw_entries, clean_entries = dj_clean_entries,
+            calendar_week = time_now.isocalendar()[1] , year_calendar_month = year_month, raw_entries = dj_raw_entries, clean_entries = dj_clean_entries,
             city = city_name, avg_price_sqrm = dj_avg_price_sqrm, avg_size = dj_avg_size,
             avg_year = dj_avg_year, highest_price = max[0], highest_price_link = max[1],
             highest_price_sqrm = max_per_sqr[0], highest_price_sqrm_link = max_per_sqr[1],
             lowest_price = min[0], lowest_price_link = min[1], lowest_price_sqrm = min_per_sqr[0],
-            lowest_price_sqrm_link = min_per_sqr[1], avg_price = med_sale_price 
+            lowest_price_sqrm_link = min_per_sqr[1], avg_price = med_sale_price
         )
 
         # get the end time

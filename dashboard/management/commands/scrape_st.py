@@ -75,20 +75,11 @@ class Command(BaseCommand):
 
         min_per_sqr_df = [df['€/m²'] == df['€/m²'].min()]
 
-        try:
-            min_per_sqr = [min_per_sqr_df['€/m²'].values[0], min_per_sqr_df['Link'].values[0]]
-        except:
-            print(min_per_sqr_df['€/m²'])
-            min_per_sqr = [100, "Error"]
-
-        med_sale_price = df["Cijena"].mean()
-
+        min_per_sqr = [min_per_sqr_df['€/m²'].values[0], min_per_sqr_df['Link'].values[0]]
 
         med_sale_price = df["Cijena"].mean()
 
         time_now = timezone.now()
-
-
 
 
 
