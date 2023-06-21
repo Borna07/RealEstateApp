@@ -2,7 +2,7 @@ import subprocess
 from datetime import datetime
 
 import os
-os.chdir(r"D:\03 Python\15 RealEstate Master\RealEstateApp")
+os.chdir(rPYTHON "D:\03 Python\15 RealEstate Master\RealEstateApp")
 
 current_date = datetime.now().date()
 
