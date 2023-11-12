@@ -1,3 +1,4 @@
+
 from django.db import models
 
 # Create your models here.
@@ -12,7 +13,7 @@ class Document(models.Model):
     document_raw = models.FileField(upload_to=only_filename, default="Some String")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     calendar_week = models.CharField(max_length=200, null=True)
-    year_calendar_week = models.CharField(max_length=200, null=True)
+    year_calendar_week = models.CharField(max_length=200, null=True) 
     year_calendar_month = models.CharField(max_length=200, null=True)
     raw_entries = models.IntegerField(null=True)
     clean_entries = models.IntegerField(null=True)
